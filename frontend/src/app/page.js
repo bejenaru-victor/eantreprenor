@@ -1,4 +1,5 @@
 'use client'
+
 import { auth } from "@/auth"
 
 export default async function Home() {
@@ -8,5 +9,5 @@ export default async function Home() {
 
     console.log(session)
 
-    return <h1>Hello world</h1>
+    return <h1 className="text-6xl text-center font-extralight mt-10">LANDING PAGE</h1>
 }

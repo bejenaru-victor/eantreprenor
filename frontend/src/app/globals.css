@@ -2,3 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.liner-wrapper:after {
+    display:block;
+    content: '';
+    padding-top: 1rem;
+    border-bottom: solid 2px #222;  
+    transform: scaleX(0);  
+    transition: transform 250ms ease-in-out;
+  }
+  .liner-wrapper:hover:after { transform: scaleX(1); }
+
+  .liner-wrapper:after {
+    transform-origin: left;
+  }
