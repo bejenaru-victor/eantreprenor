@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     # Created
+    'api',
     'users',
 
     # Installed
