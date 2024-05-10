@@ -45,14 +45,14 @@ export default function Navigation() {
                 </button>
                 <div className={`items-center justify-between font-medium ${mobileNav || 'hidden'} w-full md:flex md:w-auto md:order-1`}>
                     <ul className="flex flex-col md:pt-6 pt-6 md:space-x-8 md:flex-row md:mt-0 md:border-0 z-[100]">
-                        <MenuItem link='/#' text='First link' />
-                        <MenuItem link='/#' text='Second link' />
+                        <MenuItem link='/#' text='Courses' />
+                        <MenuItem link='/#' text='Resources' />
                         <MenuItem link='/dashboard' text='Dashboard' />
                         <MenuItem link='/api/auth/signin' text='Login' />
 
                         <li className='py-2 px-2 mb-3 md:py-0 md:px-0 md:pb-0'>
                             <Link href='/contact' className="p-2 transition-colors bg-teal-400 text-white text-sm rounded-full hover:bg-teal-500">
-                                Let's talk
+                                Get in touch
                             </Link>
                         </li>
                     </ul>

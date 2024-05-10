@@ -10,7 +10,12 @@ export default function Footer() {
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
                 <div className="md:flex md:justify-between">
                 <div className="mb-6 md:mb-0">
-                    <a href="/" className="flex items-center">
+                    <h1 className='text-gray-50'>
+                        <span className='text-3xl font-normal'>e</span>
+                        <span className='text-3xl font-extralight'>ANTREPRENOR</span>
+                    </h1>
+                    <a href="/" className="flex items-center opacity-95">
+                        <span className='text-white font-medium'>by</span>
                         <img src="https://wesoftware.ro/wp-content/uploads/2023/10/cropped-Untitled-design-82.png" className="h-14 me-3 invert" alt="FlowBite Logo" />
                     </a>
                 </div>
