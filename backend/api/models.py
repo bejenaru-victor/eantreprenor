@@ -1,11 +1,24 @@
 from django.db import models
 from datetime import datetime 
+from .utils import process_image
 
 
 class Course(models.Model):
     author = models.ForeignKey("users.User", verbose_name=(""), null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(max_length=1000, null=False, blank=False)
+    image = models.ImageField(upload_to='course_images/', null=True, blank=True)
+    #add media link I guess
+
+    def save(self, *args, **kwargs):
+        try:
+            this = Course.objects.get(id=self.id)
+            if this.image != self.image:
+                self.image = process_image(self.image)
+        except Course.DoesNotExist:
+            if self.image:
+                self.image = process_image(self.image)
+        super(Course, self).save(*args, **kwargs)
 
 
 class Lesson(models.Model):
