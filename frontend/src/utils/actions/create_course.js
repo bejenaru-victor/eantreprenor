@@ -2,37 +2,24 @@
 
 import axios from 'axios'
 
-// export const createCourse = async (formData) => {
-//     const title = formData.get("title")
-//     const description = formData.get("description")
-//     const file = formData.get("image")
-// }
 
 export const createCourse = async (formData) => {
   const hello = await axios.get('http://127.0.0.1:8000/api/courses/')
   console.log('This is the hello status',  hello.status)
     try {
-      // Extract the necessary data
       const title = formData.get('title');
       const description = formData.get('description');
       const file = formData.get('image');
   
-      // Build the data for the API
       const courseData = new FormData();
       courseData.append('name', title);
       courseData.append('description', description);
       courseData.append('image', file); 
       courseData.append('author', 1)
   
-      // Make the POST request
       const response = await axios.post(
         'http://127.0.0.1:8000/api/courses/',
-        courseData,
-        {
-          headers: {
-            //'Content-Type': 'multipart/form-data' 
-          }
-        }
+        courseData
       ).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code
