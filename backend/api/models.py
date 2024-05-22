@@ -25,6 +25,7 @@ class Lesson(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     video = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(max_length=20000, null=False, blank=False)
+    order = models.PositiveSmallIntegerField(default=0, null=False, blank=True)
 
 
 class Subscriber_Record(models.Model):
