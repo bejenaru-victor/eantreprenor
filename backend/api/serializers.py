@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.models import User
-from .models import Course
+from .models import Course, Lesson
 
 
 
@@ -25,6 +25,18 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
+        extra_fields = ['id',]
+        fields = '__all__'
+
+    def get_id(self, obj):
+        return obj.pk
+    
+
+class LessonSerializer(serializers.ModelSerializer):
+    id = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Lesson
         extra_fields = ['id',]
         fields = '__all__'
 

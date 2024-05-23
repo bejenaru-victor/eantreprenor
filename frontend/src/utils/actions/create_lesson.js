@@ -3,21 +3,17 @@
 import axios from 'axios'
 
 
-export const createCourse = async (formData) => {
+export const createLesson = async (formData, course_id) => {
     try {
-      const title = formData.get('title');
-      const description = formData.get('description');
-      const file = formData.get('image');
-  
-      const courseData = new FormData();
-      courseData.append('name', title);
-      courseData.append('description', description);
-      courseData.append('image', file); 
-      courseData.append('author', 1)
+      const data = new FormData();
+      data.append('name', formData.get('title'));
+      data.append('video_link', formData.get('video_link')); 
+      data.append('description', formData.get('description'));
+      data.append('course', course_id); 
   
       const response = await axios.post(
-        'http://127.0.0.1:8000/api/courses/',
-        courseData
+        'http://127.0.0.1:8000/api/lessons/',
+        data
       ).catch(function (error) {
         if (error.response) {
           // The request was made and the server responded with a status code

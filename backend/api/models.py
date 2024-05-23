@@ -23,9 +23,9 @@ class Course(models.Model):
 class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=False, blank=False)
-    video = models.CharField(max_length=100, null=False, blank=False)
+    video_link = models.CharField(max_length=300, null=False, blank=False, default='')
     description = models.TextField(max_length=20000, null=False, blank=False)
-    order = models.PositiveSmallIntegerField(default=0, null=False, blank=True)
+    order = models.PositiveSmallIntegerField(null=False, blank=True, default=0)
 
 
 class Subscriber_Record(models.Model):
