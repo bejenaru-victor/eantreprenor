@@ -1,17 +1,7 @@
-import { auth } from "@/auth"
 import Link from 'next/link'
 import CastForEducationIcon from '@mui/icons-material/CastForEducation';
 
 export default async function Page() {
-    const session = await auth()
-
-    if (!session || !session.user || 
-        !(session.user.roles_list.includes('Publisher') ||
-        session.user.roles_list.includes('Admin')))
-        return 403
-
-    console.log(session)
-
     return <>
         <div className='max-w-screen-xl mx-auto px-4 py-12'>
             <h1 className="text-4xl font-light">DASHBOARD</h1>
