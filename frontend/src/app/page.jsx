@@ -8,7 +8,7 @@ export default async function Page() {
     console.log(session)
 
     return <>
-        <h1 className="text-6xl text-center font-extralight mt-10">LANDING PAGE</h1>
-        <h4 className="text-center mt-16">Welcome user!</h4>
+        <h1 className="text-4xl text-center font-light mt-10">LANDING PAGE</h1>
+        <h4 className="text-center text-lg mt-2 text-gray-700">work in progress...</h4>
     </>
 }

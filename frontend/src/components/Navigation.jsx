@@ -9,7 +9,7 @@ function MenuItem({link, text}) {
     return (
         <li>
             <div className='liner-wrapper'>
-                <Link href={link} className="block py-2 px-3 text-gray-900 rounded md:hover:bg-transparent md:hover:text-yellow-500 md:p-0 transition-colors">
+                <Link href={link} className="block py-2 px-3 text-gray-900 rounded md:hover:bg-transparent md:p-0 transition-colors">
                     {text}
                 </Link>
             </div>
