@@ -16,7 +16,7 @@ export default async function Page() {
             <div className="my-4 bg-gray-700 w-12 h-[0.2rem] rounded-full"></div>
             <div className="grid lg:gap-8 xl:gap-10 lg:grid-cols-12 mt-14">
                 {courses.map(course => 
-                    <div className="col-span-4 bg-slate-800 text-gray-50 rounded-md shadow-lg overflow-hidden">
+                    <div key={course.id} className="col-span-4 bg-slate-800 text-gray-50 rounded-md shadow-lg overflow-hidden">
                         <Link href={`/dashboard/course/${course.id}/`}>
                         <img className='w-full aspect-video object-cover' 
                             src={course.image} />

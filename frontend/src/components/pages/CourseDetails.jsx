@@ -35,7 +35,7 @@ export default function CourseDetails({course, lessons}) {
         <div className="mt-4 mb-8 bg-gray-600 w-[8.5rem] h-[0.1rem] rounded-full"></div>
         <div className="grid lg:gap-8 xl:gap-10 lg:grid-cols-12">
             {lessons.map(lesson => 
-                <div className="col-span-4 bg-slate-800 text-gray-50 rounded-md shadow-lg overflow-hidden">
+                <div key={lesson.id} className="col-span-4 bg-slate-800 text-gray-50 rounded-md shadow-lg overflow-hidden">
                     <img className='w-full aspect-video object-cover' 
                         src={`https://img.youtube.com/vi/${getYouTubeVideoId(lesson.video_link)}/0.jpg`} />
                     <div className='p-5'>
