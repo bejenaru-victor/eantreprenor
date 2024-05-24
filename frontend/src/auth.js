@@ -18,7 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     password: credentials?.password,
                 }
     
-                const res = await fetch(process.env.API_URL + url, {
+                const res = await fetch(process.env.API_ROOT + url, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
