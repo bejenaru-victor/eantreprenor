@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function get_Course(id) {
-    const response = await axios.get(`http://127.0.0.1:8000/backend/courses/${id}`)
+    const response = await axios.get(process.env.API_ROOT+`courses/${id}`)
     .catch(function (error) {
         if (error.response) {
             console.log(error.response.data);
@@ -19,7 +19,7 @@ export async function get_Course(id) {
 }
 
 export async function get_Course_Lesson_Data(id) {
-    const response = await axios.get(`http://127.0.0.1:8000/backend/get-course-lesson-data/${id}`)
+    const response = await axios.get(process.env.API_ROOT+`get-course-lesson-data/${id}`)
     .catch(function (error) {
         if (error.response) {
             console.log(error.response.data);
