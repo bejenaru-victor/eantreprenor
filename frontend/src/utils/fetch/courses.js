@@ -37,7 +37,7 @@ export async function get_Course_Lesson_Data(id) {
 }
 
 export async function get_Courses() {
-    const response = await axios.get(`http://127.0.0.1:8000/backend/courses/`)
+    const response = await axios.get(process.env.API_ROOT+`courses/`)
     .catch(function (error) {
         if (error.response) {
             console.log(error.response.data);

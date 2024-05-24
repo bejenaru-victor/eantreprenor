@@ -16,7 +16,7 @@ export const createCourse = async (formData) => {
       courseData.append('author', 1)
   
       const response = await axios.post(
-        'http://127.0.0.1:8000/backend/courses/',
+        process.env.API_ROOT+'courses/',
         courseData
       ).catch(function (error) {
         if (error.response) {
