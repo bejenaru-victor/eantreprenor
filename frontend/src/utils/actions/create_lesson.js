@@ -12,7 +12,7 @@ export const createLesson = async (formData, course_id) => {
       data.append('course', course_id); 
   
       const response = await axios.post(
-        'http://127.0.0.1:8000/api/lessons/',
+        'http://127.0.0.1:8000/backend/lessons/',
         data
       ).catch(function (error) {
         if (error.response) {

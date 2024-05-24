@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export async function get_Lessons(course_id) {
-    const response = await axios.get(`http://127.0.0.1:8000/api/lessons/?course=${course_id}`)
+    const response = await axios.get(`http://127.0.0.1:8000/backend/lessons/?course=${course_id}`)
     .catch(function (error) {
         if (error.response) {
             console.log(error.response.data);
