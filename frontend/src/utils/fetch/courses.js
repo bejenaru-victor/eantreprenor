@@ -41,7 +41,11 @@ export async function get_Course_Lesson_Data(id) {
 }
 
 export async function get_Courses() {
-    const response = await axios.get(process.env.API_ROOT+`courses/`)
+    const response = await axios.get(process.env.API_ROOT+`courses/`, {
+        headers: {
+          'Cache-Control': 'no-store'
+        }
+    })
     .catch(function (error) {
         if (error.response) {
             console.log(error.response.data);
