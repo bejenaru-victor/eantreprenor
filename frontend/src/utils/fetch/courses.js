@@ -1,7 +1,11 @@
 import axios from 'axios'
 
 export async function get_Course(id) {
-    const response = await axios.get(process.env.API_ROOT+`courses/${id}`)
+    const response = await axios.get(process.env.API_ROOT+`courses/${id}`,{
+        headers: {
+          'Cache-Control': 'no-store'
+        }
+    })
     .catch(function (error) {
         if (error.response) {
             console.log(error.response.data);

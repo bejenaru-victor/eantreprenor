@@ -7,8 +7,6 @@ export default async function Page() {
 
     const courses = await get_Courses()
 
-    console.log(courses)
-
     return <>
         <div className='max-w-screen-xl mx-auto px-4 py-12'>
             <h1 className="text-4xl font-light">MY COURSES</h1>
