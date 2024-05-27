@@ -45,7 +45,7 @@ export default function Navigation() {
                 </button>
                 <div className={`items-center justify-between font-medium ${mobileNav || 'hidden'} w-full md:flex md:w-auto md:order-1`}>
                     <ul className="flex flex-col md:pt-6 pt-6 md:space-x-8 md:flex-row md:mt-0 md:border-0 z-[100]">
-                        <MenuItem link='/#' text='Courses' />
+                        <MenuItem link='/my-courses' text='Courses' />
                         <MenuItem link='/#' text='Resources' />
                         <MenuItem link='/dashboard' text='Dashboard' />
                         <MenuItem link='/api/auth/signin' text='Login' />
