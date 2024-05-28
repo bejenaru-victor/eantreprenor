@@ -36,18 +36,20 @@ export default function CourseDetails({course, lessons}) {
         <div className="grid lg:gap-8 xl:gap-10 lg:grid-cols-12">
             {lessons.map(lesson => 
                 <div key={lesson.id} className="col-span-4 bg-slate-800 text-gray-50 rounded-md shadow-lg overflow-hidden">
-                    <img className='w-full aspect-video object-cover' 
-                        src={`https://img.youtube.com/vi/${getYouTubeVideoId(lesson.video_link)}/0.jpg`} />
-                    <div className='p-5'>
-                        <div className='flex'>
-                            <div className='flex-1'>
-                                <h3 className='text-lg'>{lesson.name}</h3>
-                            </div>
+                    <Link href={`/lesson/${lesson.id}`}>
+                        <img className='w-full aspect-video object-cover' 
+                            src={`https://img.youtube.com/vi/${getYouTubeVideoId(lesson.video_link)}/0.jpg`} />
+                        <div className='p-5'>
                             <div className='flex'>
-                                <PlayCircleIcon sx={{fontSize: '2rem', ml: 'auto', my: 'auto'}}/>
+                                <div className='flex-1'>
+                                    <h3 className='text-lg'>{lesson.name}</h3>
+                                </div>
+                                <div className='flex'>
+                                    <PlayCircleIcon sx={{fontSize: '2rem', ml: 'auto', my: 'auto'}}/>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
             )}
             
