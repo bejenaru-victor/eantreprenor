@@ -48,7 +48,7 @@ export default function Navigation() {
                         <MenuItem link='/my-courses' text='Courses' />
                         <MenuItem link='/#' text='Resources' />
                         <MenuItem link='/dashboard' text='Dashboard' />
-                        <MenuItem link='/api/auth/signin' text='Login' />
+                        <MenuItem link='/login' text='Login' />
 
                         <li className='py-2 px-2 mb-3 md:py-0 md:px-0 md:pb-0'>
                             <Link href='/contact' className="p-2 transition-colors bg-teal-400 text-white text-sm rounded-full hover:bg-teal-500">
