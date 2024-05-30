@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import axios from 'axios'
 //import { refresh_token } from '@/utils/api/token'
 //import { get_user } from '@/utils/api/user'
 
@@ -34,25 +35,36 @@ export const authOptions = {
                     }
                 }
 
-                const res = await fetch(process.env.API_ROOT + url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(body),
-                })
+                // const res = await fetch(process.env.API_ROOT + url, {
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "application/json",
+                //     },
+                //     body: JSON.stringify(body),
+                // })
 
-                const user = await res.json()
-                console.log("this is the nextauth route", user)
-                if ((res.status == 200 && user) || (user?.access)) {
-                    // Any object returned will be saved in `user` property of the JWT
-                    return user
-                } else {
-                    // If you return null then an error will be displayed advising the user to check their details.
-                    if (credentials?.email && credentials?.password2)
-                        throw new Error(JSON.stringify(user))
-                    return null
-                    // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+                try {
+                    const response = await axios.post(process.env.API_ROOT + url, body, {
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                
+                    const user = response.data;
+                    console.log("this is the nextauth route", user);
+                    //const user = await res.json()
+                    if ((response.status == 200 && user) || (user?.access)) {
+                        // Any object returned will be saved in `user` property of the JWT
+                        return user
+                    } else {
+                        // If you return null then an error will be displayed advising the user to check their details.
+                        if (credentials?.email && credentials?.password2)
+                            throw new Error(JSON.stringify(user))
+                        return null
+                        // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+                    }
+                } catch (error) {
+                    console.error("Error making POST request", error);
                 }
             }
         })
