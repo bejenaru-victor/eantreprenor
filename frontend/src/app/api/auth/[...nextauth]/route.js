@@ -43,7 +43,7 @@ export const authOptions = {
                 })
 
                 const user = await res.json()
-                console.log(user)
+                console.log("this is the nextauth route", user)
                 if ((res.status == 200 && user) || (user?.access)) {
                     // Any object returned will be saved in `user` property of the JWT
                     return user
