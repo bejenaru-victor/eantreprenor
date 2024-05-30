@@ -11,7 +11,7 @@ export const authOptions = {
             name: "Credentials",
 
             credentials: {
-                username: { label: "Emauk", type: "email", placeholder: "Email" },
+                username: { label: "Email", type: "email", placeholder: "Email" },
                 password: { label: "Password", type: "password" }
             },
 
@@ -43,6 +43,7 @@ export const authOptions = {
                 })
 
                 const user = await res.json()
+                console.log(user)
                 if ((res.status == 200 && user) || (user?.access)) {
                     // Any object returned will be saved in `user` property of the JWT
                     return user
