@@ -37,7 +37,7 @@ export async function get_Lesson(id) {
 }
 
 export async function get_Test_Post() {
-    const res = await fetch('http://127.0.0.1:8000/backend/test_post/', {
+    const res = await fetch('https://eemprendedor.wesoftware.es/backend/test_post/', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
