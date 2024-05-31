@@ -30,3 +30,7 @@ def get_course_lesson_data(request, id):
         return Response({'ok': True, 'data': {'id': course.pk, 'name': course.name, 'lesson': lesson}})
     except:
         return Response({'ok': False, 'error': 'Something went wrong'})
+    
+@api_view(['POST'])
+def test_post(request):
+    return Response({'data': "this is a post data"})
