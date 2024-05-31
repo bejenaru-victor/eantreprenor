@@ -35,15 +35,3 @@ export async function get_Lesson(id) {
 
     return response.data
 }
-
-export async function get_Test_Post() {
-    const res = await fetch('https://eemprendedor.wesoftware.es/backend/test_post/', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-    
-    const data = await res.json()
-    return data
-}
