@@ -41,7 +41,7 @@ export async function get_Course_Lesson_Data(id) {
 }
 
 export async function get_Courses() {
-    const response = await axios.get(process.env.API_ROOT+`courses/`, {
+    const response = await axios.get(process.env.API_ROOT+`courses/?timestamp=${new Date().getTime()}`, {
         // query URL without using browser cache
         headers: {
             'Cache-Control': 'no-cache',
@@ -54,7 +54,7 @@ export async function get_Courses() {
             console.log(error.response.data);
             console.log(error.response.status);
             console.log(error.response.headers);
-        } else if (error.request) {
+        } else if (error.requestp) {
             console.log(error.request);
         } else {
             console.log('Error', error.message);
