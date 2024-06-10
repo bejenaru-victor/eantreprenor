@@ -42,9 +42,12 @@ export async function get_Course_Lesson_Data(id) {
 
 export async function get_Courses() {
     const response = await axios.get(process.env.API_ROOT+`courses/`, {
+        // query URL without using browser cache
         headers: {
-          'Cache-Control': 'no-store'
-        }
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+        },
     })
     .catch(function (error) {
         if (error.response) {
