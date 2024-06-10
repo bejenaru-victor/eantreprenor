@@ -10,6 +10,8 @@ export const metadata = {
   description: "E-learning platform for the new generation of antrepreneurs",
 };
 
+export const fetchCache = "default-no-store"
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
