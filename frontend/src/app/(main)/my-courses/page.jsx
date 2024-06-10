@@ -3,6 +3,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { get_Courses } from '@/utils/fetch/courses';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
+// Opt out of caching for all data requests in the route segment
+export const dynamic = 'force-dynamic'
+
 export default async function Page() {
 
     const courses = await get_Courses()
