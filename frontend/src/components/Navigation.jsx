@@ -2,14 +2,17 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import AccountMenu from './navigation/AccountMenu'
+
+import { useSession } from "next-auth/react"
 
 
 
 function MenuItem({link, text}) {
     return (
-        <li>
-            <div className='liner-wrapper'>
-                <Link href={link} className="block py-2 px-3 text-gray-900 rounded md:hover:bg-transparent md:p-0 transition-colors">
+        <li className='flex'>
+            <div className='liner-wrapper relative flex'>
+                <Link href={link} className="block my-auto px-3 text-gray-900 rounded md:hover:bg-transparent md:p-0 transition-colors">
                     {text}
                 </Link>
             </div>
@@ -22,6 +25,7 @@ export default function Navigation() {
 
 
     const [mobileNav, setMobileNav] = useState(false)
+    const { data: session, status } = useSession()
 
     const toggleMenu = () => {
         setMobileNav(!mobileNav)
@@ -30,9 +34,9 @@ export default function Navigation() {
 
     return <>
         <nav className={'backdrop-blur-md bg-[#ffffff90] border-b border-gray-200 z-[300] sticky top-0 md:relative w-full'}>
-            <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-0">
+            <div className="flex flex-wrap justify-between mx-auto max-w-screen-xl p-0">
 
-                <Link href='/' className="flex items-center space-x-3 p-1 md:p-0">
+                <Link href='/' className="flex items-center space-x-3 p-1 md:p-0 my-3">
                     <img src="https://wesoftware.ro/wp-content/uploads/2023/10/cropped-Untitled-design-82.png" className="h-12" alt="Flowbite Logo" />
                     <span className="self-center text-2xl font-semibold whitespace-nowrap "></span>
                 </Link>
@@ -43,18 +47,23 @@ export default function Navigation() {
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
                     </svg>
                 </button>
-                <div className={`items-center justify-between font-medium ${mobileNav || 'hidden'} w-full md:flex md:w-auto md:order-1`}>
-                    <ul className="flex flex-col md:pt-6 pt-6 md:space-x-8 md:flex-row md:mt-0 md:border-0 z-[100]">
+                <div className={`justify-between font-medium ${mobileNav || 'hidden'} w-full md:flex md:w-auto md:order-1`}>
+                    <ul className="flex flex-col md:space-x-8 md:flex-row md:mt-0 md:border-0 z-[100]">
                         <MenuItem link='/my-courses' text='Courses' />
                         <MenuItem link='/#' text='Resources' />
                         <MenuItem link='/dashboard' text='Dashboard' />
-                        <MenuItem link='/login' text='Login' />
-
-                        <li className='py-2 px-2 mb-3 md:py-0 md:px-0 md:pb-0'>
-                            <Link href='/contact' className="p-2 transition-colors bg-teal-400 text-white text-sm rounded-full hover:bg-teal-500">
-                                Get in touch
-                            </Link>
-                        </li>
+                        {session ? <AccountMenu /> :
+                        <>
+                            <MenuItem link='/login' text='Login' />
+                            <li className='flex'>
+                                <Link href='/contact' className="my-auto p-2 transition-colors bg-teal-400 text-white text-sm rounded-full hover:bg-teal-500">
+                                    Get in touch
+                                </Link>
+                            </li>
+                        </>
+                        }
+                        
+                        
                     </ul>
                 </div>
             </div>

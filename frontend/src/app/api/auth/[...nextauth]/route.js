@@ -70,7 +70,8 @@ export const authOptions = {
 
         async jwt({ token, user, trigger }) {
             if (typeof token.access !== "undefined") {
-                const isAccessExpired = 0 > (Date.parse(token.access_expiration) - Date.now())
+                //const isAccessExpired = 0 > (Date.parse(token.access_expiration) - Date.now())
+                const isAccessExpired = 0
                 if (isAccessExpired) {
                     const refresh = await refresh_token(token.refresh)
                     if (refresh) {
@@ -85,6 +86,8 @@ export const authOptions = {
 
             else if (trigger === "update") 
                 token.user = await get_user(token.access)
+
+            console.log('is going through callback')
 
             return token
         },
