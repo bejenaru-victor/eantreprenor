@@ -5,6 +5,9 @@
 .liner-wrapper:after {
     display:block;
     content: '';
+    position:absolute;
+    bottom: 0;
+    width: 100%;
     padding-top: 1rem;
     border-bottom: solid 2px #222;  
     transform: scaleX(0);  

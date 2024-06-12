@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import axios from 'axios'
-//import { refresh_token } from '@/utils/api/token'
+import { refresh_token } from '@/utils/fetch/token'
 //import { get_user } from '@/utils/api/user'
 
 
@@ -71,6 +70,11 @@ export const authOptions = {
         async jwt({ token, user, trigger }) {
             if (typeof token.access !== "undefined") {
                 const isAccessExpired = 0 > (Date.parse(token.access_expiration) - Date.now())
+                //const isAccessExpired = 0
+                
+                console.log("Now date:", Date.now(), 
+                    "Access date:", Date.parse(token.access_expiration))
+
                 if (isAccessExpired) {
                     const refresh = await refresh_token(token.refresh)
                     if (refresh) {
@@ -86,11 +90,13 @@ export const authOptions = {
             else if (trigger === "update") 
                 token.user = await get_user(token.access)
 
+            console.log('is going through jwt')
+
             return token
         },
 
         async session({ session, token, user }) {
-            if (token)
+            if (token?.access)
                 session = {
                     ...session,
                     access: token.access,
@@ -98,7 +104,7 @@ export const authOptions = {
                     user: token.user
                 }
 
-            else session = {}
+            else session = null
 
             return session
         }
