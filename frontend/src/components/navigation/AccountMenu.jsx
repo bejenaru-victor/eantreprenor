@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'next/link'
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -33,7 +34,7 @@ export default function AccountMenu() {
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }} className='cursor-pointer' onClick={handleClick}>
         <Tooltip title="Account settings">
           <div className='flex'>
-            <span className='block my-auto px-3 text-gray-900 rounded md:hover:bg-transparent md:p-0 transition-colors'>{session?.user.username}</span>
+            <span className='block my-auto px-3 text-gray-900 rounded md:hover:bg-transparent md:p-0 transition-colors'>{session?.user?.username}</span>
             <IconButton
               size="small"
               sx={{ ml: 2 }}
@@ -92,10 +93,12 @@ export default function AccountMenu() {
           Settings
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
+          <Link href='/logout'>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </Link>
         </MenuItem>
       </Menu>
     </React.Fragment>

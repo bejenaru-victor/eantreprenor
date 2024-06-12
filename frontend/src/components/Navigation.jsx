@@ -36,7 +36,7 @@ export default function Navigation() {
         <nav className={'backdrop-blur-md bg-[#ffffff90] border-b border-gray-200 z-[300] sticky top-0 md:relative w-full'}>
             <div className="flex flex-wrap justify-between mx-auto max-w-screen-xl p-0">
 
-                <Link href='/' className="flex items-center space-x-3 p-1 md:p-0 my-3">
+                <Link href='/' className="flex items-center space-x-3 p-1 md:p-0 my-2">
                     <img src="https://wesoftware.ro/wp-content/uploads/2023/10/cropped-Untitled-design-82.png" className="h-12" alt="Flowbite Logo" />
                     <span className="self-center text-2xl font-semibold whitespace-nowrap "></span>
                 </Link>
@@ -52,6 +52,7 @@ export default function Navigation() {
                         <MenuItem link='/my-courses' text='Courses' />
                         <MenuItem link='/#' text='Resources' />
                         <MenuItem link='/dashboard' text='Dashboard' />
+                        <MenuItem link='/protected' text='Protected' />
                         {session ? <AccountMenu /> :
                         <>
                             <MenuItem link='/login' text='Login' />
