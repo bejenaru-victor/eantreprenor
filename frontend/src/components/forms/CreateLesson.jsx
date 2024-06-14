@@ -9,7 +9,28 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { createLesson } from '@/utils/actions/create_lesson';
 
+import hljs from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
 
+const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, false] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      ['link', 'image'], ['code'],
+      ['clean']
+    ],
+    syntax: {
+        highlight: text => hljs.highlightAuto(text).value
+    }
+  }
+
+const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image', 'code'
+  ]
 
 export default function CreateLesson({data}) {
 
@@ -29,6 +50,7 @@ export default function CreateLesson({data}) {
         </h1>
         <div className="mt-6 mb-10 bg-gray-700 w-12 h-[0.2rem] rounded-full"></div>
         <form action={async (formData) => {
+                formData.append('description', value)
                 const res = await createLesson(formData, data.id)
                 console.log(res.data)
                 router.push(`/dashboard/course/${data.id}`)
@@ -47,9 +69,11 @@ export default function CreateLesson({data}) {
                          />
                     
                     <div className='mt-10'></div>
-                    <TextField label="Description (TODO RTE)" fullWidth multiline rows={4}
+                    {/*<TextField label="Description (TODO RTE)" fullWidth multiline rows={4}
                         variant="outlined" size='large' name='description'
-                        inputProps={{style: {fontSize: '1.2rem'}, className: 'leading-tight'}} />
+                        inputProps={{style: {fontSize: '1.2rem'}, className: 'leading-tight'}} />*/}
+                    <ReactQuill className='mt-10' theme="snow" value={value} onChange={setValue} modules={modules} formats={formats} />
+                    <div onClick={() => {console.log(value)}}>Show wassup</div>
                 </div>
             </div>
             <Button className='mt-10 float-end clear-right bg-cyan-600 hover:bg-cyan-700 rounded-full' variant="contained" size='large' type='submit'>
