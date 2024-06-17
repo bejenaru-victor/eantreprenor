@@ -1647,6 +1647,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dompurify@npm:^3.1.5":
+  version: 3.1.5
+  resolution: "dompurify@npm:3.1.5"
+  checksum: 18ae2930cba3c260889b99e312c382c344d219bd113bc39fbb665a61987d25849021768f490395e6954aab94448a24b3c3721c160b53550547110c37cebe9feb
+  languageName: node
+  linkType: hard
+
 "eantreprenor@workspace:.":
   version: 0.0.0-use.local
   resolution: "eantreprenor@workspace:."
@@ -1656,8 +1663,10 @@ __metadata:
     "@mui/icons-material": ^5.15.17
     "@mui/material": ^5.15.17
     axios: ^1.6.8
+    dompurify: ^3.1.5
     eslint: ^8
     eslint-config-next: 14.2.3
+    highlight.js: ^11.9.0
     next: 14.2.3
     next-auth: ^4.24.7
     postcss: ^8
@@ -2582,6 +2591,13 @@ __metadata:
   dependencies:
     function-bind: ^1.1.2
   checksum: e8516f776a15149ca6c6ed2ae3110c417a00b62260e222590e54aa367cbcd6ed99122020b37b7fbdf05748df57b265e70095d7bf35a47660587619b15ffb93db
+  languageName: node
+  linkType: hard
+
+"highlight.js@npm:^11.9.0":
+  version: 11.9.0
+  resolution: "highlight.js@npm:11.9.0"
+  checksum: 4043d31c5de9d27d13387d9a9e5e1939557254b7b85f0fab85d9cae0e420e131a3456ebf6148552020a1d8a216d671d583f2433d6c4de6179b8a66487a8325cb
   languageName: node
   linkType: hard
 

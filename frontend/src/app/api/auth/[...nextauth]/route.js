@@ -70,11 +70,6 @@ export const authOptions = {
         async jwt({ token, user, trigger }) {
             if (typeof token.access !== "undefined") {
                 const isAccessExpired = 0 > (Date.parse(token.access_expiration) - Date.now())
-                //const isAccessExpired = 0
-                
-                console.log("Now date:", Date.now(), 
-                    "Access date:", Date.parse(token.access_expiration))
-
                 if (isAccessExpired) {
                     const refresh = await refresh_token(token.refresh)
                     if (refresh) {
@@ -108,7 +103,11 @@ export const authOptions = {
 
             return session
         }
-    }
+    },
+
+    pages: {
+        signIn: '/login', // Custom sign-in page URL
+    },
 }
 
 

@@ -12,7 +12,7 @@ function MenuItem({link, text}) {
     return (
         <li className='flex'>
             <div className='liner-wrapper relative flex'>
-                <Link href={link} className="block my-auto px-3 text-gray-900 rounded md:hover:bg-transparent md:p-0 transition-colors">
+                <Link href={link} prefetch={false} className="block my-auto px-3 text-gray-900 rounded md:hover:bg-transparent md:p-0 transition-colors">
                     {text}
                 </Link>
             </div>

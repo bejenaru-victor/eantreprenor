@@ -15,5 +15,5 @@ urlpatterns = router.urls + [
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
 
     path('get-course-lesson-data/<int:id>/', views.get_course_lesson_data, name='get-course-lesson-data'),
-    path('test_post/', views.test_post, name='test_post'),
+    path('next_prev/<int:id>/', views.get_next_prev, name='get-next-prev'),
 ]
