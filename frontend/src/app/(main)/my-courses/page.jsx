@@ -5,6 +5,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 // Opt out of caching for all data requests in the route segment
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default async function Page() {
 

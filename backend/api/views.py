@@ -30,3 +30,19 @@ def get_course_lesson_data(request, id):
         return Response({'ok': True, 'data': {'id': course.pk, 'name': course.name, 'lesson': lesson}})
     except:
         return Response({'ok': False, 'error': 'Something went wrong'})
+    
+
+@api_view(['GET'])
+def get_next_prev(request, id):
+    try:
+        lesson = Lesson.objects.get(id=id)
+        lessons = Lesson.objects.filter(course=lesson.course).order_by('id')
+        lesson_ids = list(lessons.values_list('id', flat=True))
+        current_index = lesson_ids.index(id)
+
+        previous_id = lesson_ids[current_index - 1] if current_index > 0 else None
+        next_id = lesson_ids[current_index + 1] if current_index < len(lesson_ids) - 1 else None
+
+        return Response({'ok': True, 'data': {'previous': previous_id, 'next': next_id}})
+    except:
+        return Response({'ok': False, 'error': 'Something went wrong'})
