@@ -29,7 +29,7 @@ def get_course_lesson_data(request, id):
         lesson = course.lesson_set.all().count() + 1
         return Response({'ok': True, 'data': {'id': course.pk, 'name': course.name, 'lesson': lesson}})
     except:
-        return Response({'ok': False, 'error': 'Something went wrong'})
+        return Response({'ok': False, 'error': 'Something went very wrong'})
     
 
 @api_view(['GET'])
