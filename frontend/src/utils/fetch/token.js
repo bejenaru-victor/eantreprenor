@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import Router from 'next/navigation'
+import { Router } from 'next/navigation'
 
 export async function get_access_token(){
     try {
