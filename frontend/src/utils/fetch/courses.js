@@ -57,3 +57,22 @@ export async function get_Courses() {
 
     return response.data
 }
+
+export async function edit_course(id, value) {
+    const res = await fetch(process.env.API_ROOT+`courses/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            published: value,
+        }),
+    })
+    if (res.status == 200) {
+        const data = await res.json()
+        // Any object returned will be saved in `user` property of the JWT
+        return data
+    }
+
+    return null
+}

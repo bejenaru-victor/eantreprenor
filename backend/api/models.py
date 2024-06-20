@@ -8,6 +8,7 @@ class Course(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(max_length=1000, null=False, blank=False)
     image = models.ImageField(upload_to='course_images/', null=True, blank=True)
+    published = models.BooleanField(null=False, blank=True, default=False)
 
     def save(self, *args, **kwargs):
         try:

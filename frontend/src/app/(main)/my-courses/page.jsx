@@ -11,13 +11,40 @@ export default async function Page() {
 
     const courses = await get_Courses()
 
+    console.log(courses)
+
     return <>
         <div className='max-w-screen-xl mx-auto px-4 py-12'>
             <h1 className="text-4xl font-light">MY COURSES</h1>
-            <h4 className="text-lg mt-1 text-gray-700">work in progress...</h4>
+
+            <h4 className="text-xl font-semibold mt-1 text-gray-700 mt-16">Published</h4>
             <div className="my-4 bg-gray-700 w-12 h-[0.2rem] rounded-full"></div>
-            <div className="grid lg:gap-8 xl:gap-10 lg:grid-cols-12 mt-14">
-                {courses.map(course => 
+            <div className="grid lg:gap-8 xl:gap-10 lg:grid-cols-12 mt-8">
+                {courses.map(course => {if (course.published) return (
+                    <div key={course.id} className="col-span-4 bg-slate-800 text-gray-50 rounded-md shadow-lg overflow-hidden">
+                        <Link href={`/dashboard/course/${course.id}/`}>
+                        <img className='w-full aspect-video object-cover' 
+                            src={course.image} />
+                        <div className='p-5'>
+                            <div className='flex'>
+                                <div className='flex-1'>
+                                    <h3 className='text-md'>{course.name}</h3>
+                                </div>
+                                <div className='flex'>
+                                    <PlayCircleIcon sx={{fontSize: '2rem', ml: 'auto', my: 'auto'}}/>
+                                </div>
+                            </div>
+                        </div>
+                        </Link>
+                    </div>
+                )})}
+            </div>
+
+
+            <h4 className="text-xl font-semibold mt-1 text-gray-700 mt-16">Drafts</h4>
+            <div className="my-4 bg-gray-700 w-12 h-[0.2rem] rounded-full"></div>
+            <div className="grid lg:gap-8 xl:gap-10 lg:grid-cols-12 mt-8">
+                {courses.map(course => !course.published &&
                     <div key={course.id} className="col-span-4 bg-slate-800 text-gray-50 rounded-md shadow-lg overflow-hidden">
                         <Link href={`/dashboard/course/${course.id}/`}>
                         <img className='w-full aspect-video object-cover' 
