@@ -59,8 +59,8 @@ export async function get_Courses() {
 }
 
 export async function edit_course(id, value) {
-    const res = await fetch(process.env.API_ROOT+`courses/${id}`, {
-        method: "POST",
+    const res = await fetch(process.env.NEXT_PUBLIC_API_ROOT+`courses/${id}/`, {
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import LowPriorityIcon from '@mui/icons-material/LowPriority'
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import { IOSSwitch } from './PublishSwitch';
+import PublishSwitch from './PublishSwitch';
 
 function getYouTubeVideoId(url) {
     const regex = /(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
@@ -11,6 +11,9 @@ function getYouTubeVideoId(url) {
 }
 
 export default function CourseDetails({course, lessons}) {
+
+
+
     return <>
         <div className="grid lg:gap-8 xl:gap-16 lg:grid-cols-12">
             <div className="col-span-6 flex">
@@ -69,8 +72,6 @@ export default function CourseDetails({course, lessons}) {
                 </div>
             </Link>
         </div>
-        <div className='d-flex'>
-            <span className='text-xl font-semibold mr-5 my-auto'>Published:</span> <IOSSwitch />
-        </div>
+        <PublishSwitch course={course} />
     </>
 }

@@ -21,4 +21,4 @@ export default withAuth(
   },
 )
 
-export const config = { matcher: ["/my-courses", "/protected"] }
+export const config = { matcher: ["/my-courses"] }
