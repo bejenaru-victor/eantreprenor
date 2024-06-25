@@ -1,10 +1,12 @@
 'use client'
 
+import { edit_course } from '@/utils/fetch/courses';
 import Switch from '@mui/material/Switch';
 import { styled } from '@mui/material/styles';
+import { useState } from 'react';
 
 
-export const IOSSwitch = styled((props) => (
+const IOSSwitch = styled((props) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
   ))(({ theme }) => ({
     width: 42,
@@ -54,3 +56,22 @@ export const IOSSwitch = styled((props) => (
       }),
     },
   }));
+
+
+export default function PublishSwitch({course}) {
+
+  const [checked, setChecked] = useState(course.published)
+
+
+  const handleChange = async (event) => {
+    setChecked(event.target.checked)
+    const res = await edit_course(course.id, event.target.checked)
+    console.log(res)
+  }
+
+  return <>
+    <div className='d-flex'>
+        <IOSSwitch checked={checked} onChange={handleChange} /> <span className='text-lg ml-2 font-semibold mr-5 my-auto'>{ checked ? 'Published' : 'Not published'}</span>
+    </div>
+  </>
+}

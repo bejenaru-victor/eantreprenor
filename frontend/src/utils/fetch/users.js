@@ -15,3 +15,19 @@ export async function logout_user(){
     }
     return []
 }
+
+export async function get_users(){
+    //const accessToken = await get_access_token()
+    const res = await fetch(process.env.NEXT_PUBLIC_API_ROOT+"users/", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            //"Authorization": `Bearer ${accessToken}`,
+        },
+    })
+    if (res.ok) {
+        const data = await res.json()
+        return data
+    }
+    return []
+}
