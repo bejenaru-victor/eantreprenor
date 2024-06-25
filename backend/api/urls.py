@@ -5,8 +5,10 @@ from . import views
 
 
 router = routers.SimpleRouter()
+router.register(r'users', views.UserViewSet)
 router.register(r'courses', views.CourseViewSet)
 router.register(r'lessons', views.LessonViewSet)
+router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = router.urls + [
     path('admin/', admin.site.urls),

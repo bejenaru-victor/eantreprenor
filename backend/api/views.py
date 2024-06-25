@@ -2,9 +2,15 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Course, Lesson
-from .serializers import CourseSerializer, LessonSerializer
+from .models import Course, Lesson, Group
+from users.models import User
+from .serializers import CourseSerializer, LessonSerializer, GroupSerializer, UserSerializer
 
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -21,6 +27,11 @@ class LessonViewSet(viewsets.ModelViewSet):
         if course_id is not None:
             queryset = queryset.filter(course_id=course_id)
         return queryset
+
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
 
 @api_view(['GET'])
 def get_course_lesson_data(request, id):

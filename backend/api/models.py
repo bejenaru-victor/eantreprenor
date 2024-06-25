@@ -41,3 +41,9 @@ class Payments(models.Model):
     ammount = models.FloatField(null=False, blank=False)
     date = models.DateTimeField(null=False, blank=False, default=datetime.now)
     course = models.ForeignKey(Course, null=True, on_delete=models.SET_NULL)
+
+
+class Group(models.Model):
+    name = models.CharField(max_length=50, blank=False, null=False)
+    users = models.ManyToManyField("users.User", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
