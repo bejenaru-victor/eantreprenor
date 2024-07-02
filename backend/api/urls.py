@@ -18,4 +18,5 @@ urlpatterns = router.urls + [
 
     path('get-course-lesson-data/<int:id>/', views.get_course_lesson_data, name='get-course-lesson-data'),
     path('next_prev/<int:id>/', views.get_next_prev, name='get-next-prev'),
+    path('bulk-upload/', views.bulk_upload, name='bulk-upload'),
 ]
