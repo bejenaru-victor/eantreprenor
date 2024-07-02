@@ -1,4 +1,5 @@
 import GroupUsers from '@/components/models/group_users/GroupUsers'
+import FileUploader from '@/components/models/group_users/components/FileUploader'
 import { get_group } from '@/utils/fetch/groups'
 import { notFound } from 'next/navigation'
 
@@ -19,6 +20,7 @@ export default async function Page({params}) {
     return <>
         <div className='max-w-screen-xl mx-auto px-4 py-12'>
             <GroupUsers group={group} />
+            <FileUploader groupId={group.id} />
         </div>
     </>
 }

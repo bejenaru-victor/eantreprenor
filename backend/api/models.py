@@ -47,3 +47,11 @@ class Group(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
     users = models.ManyToManyField("users.User", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class SharedFile(models.Model):
+    file = models.FileField(upload_to='group_files/', null=False, blank=False)
+    group = models.ForeignKey(Group, related_name='shared_files', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.file.name} in group {self.group.name}'
