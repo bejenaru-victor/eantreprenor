@@ -50,9 +50,13 @@ export default function Navigation() {
                 <div className={`justify-between font-medium ${mobileNav || 'hidden'} w-full md:flex md:w-auto md:order-1`}>
                     <ul className="flex flex-col md:space-x-8 md:flex-row md:mt-0 md:border-0 z-[100]">
                         <MenuItem link='/courses' text='Courses' />
-                        <MenuItem link='/#' text='Resources' />
-                        <MenuItem link='/dashboard' text='Dashboard' />
-                        {session ? <AccountMenu /> :
+                        <MenuItem link='#' text='Resources' />
+                        {session ? 
+                            <>
+                                <MenuItem link='/dashboard' text='Dashboard' />
+                                <AccountMenu /> 
+                            </>    
+                        :
                         <>
                             <MenuItem link='/login' text='Login' />
                             {/*<li className='flex'>

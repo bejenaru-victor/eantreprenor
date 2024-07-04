@@ -4,6 +4,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
 
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
+import OptionsButton from './OptionsButton';
 
 
 const LightTooltip = styled(({ className, ...props }) => (
@@ -38,9 +39,12 @@ export default function FileList({files}) {
                         </LightTooltip>
                     </div>
                     <div className="basis-auto flex">
-                        <a href={file.file} target="_blank" download className='mx-auto my-auto'>
-                            <CloudDownloadIcon />
+                        <a href={file.file} target="_blank" download className='mx-auto my-auto mr-2'>
+                            <CloudDownloadIcon sx={{color: '#444'}} />
                         </a>
+                        <span className='mx-auto my-auto'>
+                            <OptionsButton />
+                        </span>
                     </div>
                 </div>
             )}

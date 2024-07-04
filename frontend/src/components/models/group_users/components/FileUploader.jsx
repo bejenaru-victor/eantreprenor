@@ -32,6 +32,7 @@ export default function FileUploader({groupId}) {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Files uploaded successfully:', data);
+                location.reload();
             } else {
                 console.error('Error uploading files:', response.statusText);
             }
