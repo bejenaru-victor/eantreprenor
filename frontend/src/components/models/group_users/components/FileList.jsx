@@ -43,7 +43,7 @@ export default function FileList({files}) {
                             <CloudDownloadIcon sx={{color: '#444'}} />
                         </a>
                         <span className='mx-auto my-auto'>
-                            <OptionsButton />
+                            <OptionsButton fileId={file.id} />
                         </span>
                     </div>
                 </div>

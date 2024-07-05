@@ -5,17 +5,27 @@ import MenuItem from '@mui/material/MenuItem';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { delete_file } from '@/utils/fetch/files';
 
 
-export default function OptionsButton() {
+export default function OptionsButton({fileId}) {
+
     const [anchorEl, setAnchorEl] = React.useState(null)
     const open = Boolean(anchorEl)
+
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget)
-    };
+    }
+
     const handleClose = () => {
       setAnchorEl(null)
-    };
+    }
+
+    const deleteFile = async () => {
+      await delete_file(fileId)
+      handleClose()
+      location.reload()
+    }
   
     return (
       <div>
@@ -37,7 +47,7 @@ export default function OptionsButton() {
             'aria-labelledby': 'basic-button',
           }}
         >
-            <MenuItem onClick={handleClose} sx={{color: '#700'}}>
+            <MenuItem onClick={deleteFile} sx={{color: '#700'}}>
                 <DeleteIcon sx={{color: '#700', mr: 1}} />
                 Delete
             </MenuItem>

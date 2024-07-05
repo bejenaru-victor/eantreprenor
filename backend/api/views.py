@@ -1,11 +1,12 @@
+from rest_framework.decorators import action
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Course, Lesson, Group
+from .models import Course, Lesson, Group, SharedFile
 from users.models import User
-from .serializers import CourseSerializer, LessonSerializer, GroupSerializer, UserSerializer, BulkUploadSerializer
+from .serializers import CourseSerializer, LessonSerializer, GroupSerializer, UserSerializer, BulkUploadSerializer, SharedFileSerializer
 
 
 
@@ -33,6 +34,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+class SharedFileViewSet(viewsets.ModelViewSet):
+    queryset = SharedFile.objects.all()
+    serializer_class = SharedFileSerializer
+
 
 @api_view(['GET'])
 def get_course_lesson_data(request, id):
@@ -59,6 +64,18 @@ def get_next_prev(request, id):
     except:
         return Response({'ok': False, 'error': 'Something went wrong'})
     
+
+@api_view(['GET'])
+def get_user_files(request, id):
+    try:
+        user = User.objects.get(id=id)
+        group = user.learning_group.all().first()
+        files = group.shared_files.all()
+        serializer = SharedFileSerializer(files, many=True)
+
+        return Response({'ok': True, 'data': serializer.data})
+    except:
+        return Response({'ok': False, 'error': 'Something went very wrong'})
 
 @api_view(['POST'])
 def bulk_upload(request):
