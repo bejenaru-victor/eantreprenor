@@ -9,6 +9,7 @@ router.register(r'users', views.UserViewSet)
 router.register(r'courses', views.CourseViewSet)
 router.register(r'lessons', views.LessonViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'files', views.SharedFileViewSet)
 
 urlpatterns = router.urls + [
     path('admin/', admin.site.urls),
@@ -18,5 +19,6 @@ urlpatterns = router.urls + [
 
     path('get-course-lesson-data/<int:id>/', views.get_course_lesson_data, name='get-course-lesson-data'),
     path('next_prev/<int:id>/', views.get_next_prev, name='get-next-prev'),
+    path('user/<int:id>/files/', views.get_user_files, name='user-files'),
     path('bulk-upload/', views.bulk_upload, name='bulk-upload'),
 ]

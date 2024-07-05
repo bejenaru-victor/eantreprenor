@@ -45,7 +45,7 @@ class Payments(models.Model):
 
 class Group(models.Model):
     name = models.CharField(max_length=50, blank=False, null=False)
-    users = models.ManyToManyField("users.User", blank=True)
+    users = models.ManyToManyField("users.User", blank=True, related_name='learning_group')
     created_at = models.DateTimeField(auto_now_add=True)
 
 

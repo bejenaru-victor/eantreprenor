@@ -52,17 +52,6 @@ export default function Groups() {
                 </div>
             </>
         },
-        { field: 'files', headerName: 'Files (todo)', flex:.5, minWidth: 150,
-            renderCell: (params) => <>
-                <div onClick={(e) => {e.preventDefault(); e.stopPropagation();}}>
-                    <Link href={`groups/${params.row.id}`}>
-                        <IconButton aria-label="details">
-                            <LaunchIcon color='primary' />
-                        </IconButton>
-                    </Link>
-                </div>
-            </>
-        },
     ];
 
     useEffect(() => {
