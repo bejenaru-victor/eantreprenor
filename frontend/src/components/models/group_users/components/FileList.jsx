@@ -23,7 +23,10 @@ function fileNameUrl(url) {
     return parts[parts.length - 1];
   }
 
-export default function FileList({files}) {
+export default function FileList({files, options=false}) {
+    if (!files)
+        return
+
     return <>
         <h3 className='mt-10 text-xl font-medium mb-4'>Shared files:</h3>
         <div className="my-3 bg-gray-700 w-12 h-[0.2rem] rounded-full"></div>
@@ -42,9 +45,10 @@ export default function FileList({files}) {
                         <a href={file.file} target="_blank" download className='mx-auto my-auto mr-2'>
                             <CloudDownloadIcon sx={{color: '#444'}} />
                         </a>
+                        {options && 
                         <span className='mx-auto my-auto'>
                             <OptionsButton fileId={file.id} />
-                        </span>
+                        </span>}
                     </div>
                 </div>
             )}

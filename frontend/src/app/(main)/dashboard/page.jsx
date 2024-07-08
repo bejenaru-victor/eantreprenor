@@ -3,8 +3,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 import Link from 'next/link'
 import CastForEducationIcon from '@mui/icons-material/CastForEducation'
-import FileList from "@/components/models/group_users/components/FileList"
-import { get_group_files } from "@/utils/fetch/files"
 import DashboardFileList from "@/components/pages/DashboardFileList"
 
 export default async function Page() {

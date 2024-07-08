@@ -1,3 +1,5 @@
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import Link from 'next/link'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import LowPriorityIcon from '@mui/icons-material/LowPriority'
@@ -10,8 +12,9 @@ function getYouTubeVideoId(url) {
     return match ? match[1] : null;
 }
 
-export default function CourseDetails({course, lessons}) {
+export default async function CourseDetails({course, lessons}) {
 
+    const session = await getServerSession(authOptions)
 
 
     return <>
@@ -72,6 +75,6 @@ export default function CourseDetails({course, lessons}) {
                 </div>
             </Link>
         </div>
-        <PublishSwitch course={course} />
+        {session?.user?.roles_list.includes('Admin') && <PublishSwitch course={course} />}
     </>
 }
