@@ -52,8 +52,8 @@ export default function CreateLesson({data}) {
         <form action={async (formData) => {
                 formData.append('description', value)
                 const res = await createLesson(formData, data.id)
-                console.log(res.data)
-                router.push(`/dashboard/course/${data.id}`)
+                console.log(res)
+                //router.push(`/dashboard/course/${data.id}`)
             }
         }>
             <div className="grid lg:gap-8 xl:gap-16 lg:grid-cols-12">
