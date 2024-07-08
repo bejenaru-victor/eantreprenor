@@ -1,5 +1,7 @@
 'use server'
 
+import { get_access_token } from "../fetch/token";
+
 //import axios from 'axios'
 
 
@@ -10,10 +12,17 @@ export const createLesson = async (formData, course_id) => {
       data.append('video_link', formData.get('video_link')); 
       data.append('description', formData.get('description'));
       data.append('course', course_id);
+
+      const accessToken = await get_access_token()
   
       const response = await fetch(`${process.env.API_ROOT}lessons/`, {
         method: 'POST',
-        body: data
+        headers: {
+          //"Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`,
+        },
+        body: data,
+        
       });
   
       if (!response.ok) {
