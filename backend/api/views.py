@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
+from .permissions import HasPurchasedCourse
 from .models import Course, Lesson, Group, SharedFile
 from users.models import User
 from .serializers import CourseSerializer, LessonSerializer, GroupSerializer, UserSerializer, BulkUploadSerializer, SharedFileSerializer
@@ -23,7 +24,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasPurchasedCourse]
 
     def get_queryset(self):
         queryset = super().get_queryset()

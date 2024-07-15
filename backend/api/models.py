@@ -35,6 +35,11 @@ class Subscriber_Record(models.Model):
     progress = models.ManyToManyField(Lesson)
     active = models.BooleanField(null=False, blank=True, default=True)
 
+class Purchase(models.Model):
+    user = models.ForeignKey('users.User', related_name='purchases', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='purchases', on_delete=models.CASCADE)
+    purchase_date = models.DateTimeField(auto_now_add=True)
+
 
 class Payments(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
