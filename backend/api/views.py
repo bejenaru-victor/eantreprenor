@@ -32,6 +32,12 @@ class LessonViewSet(viewsets.ModelViewSet):
         if course_id is not None:
             queryset = queryset.filter(course_id=course_id)
         return queryset
+    
+    def get_permissions(self):
+        if 'course' in self.request.query_params:
+            return []
+        else:
+            return [IsAuthenticated(), HasPurchasedCourse()]
 
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()

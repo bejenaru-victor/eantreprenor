@@ -41,11 +41,11 @@ class Purchase(models.Model):
     purchase_date = models.DateTimeField(auto_now_add=True)
 
 
-class Payments(models.Model):
+class Payment(models.Model):
     user = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    ammount = models.FloatField(null=False, blank=False)
-    date = models.DateTimeField(null=False, blank=False, default=datetime.now)
-    course = models.ForeignKey(Course, null=True, on_delete=models.SET_NULL)
+    stripe_charge_id = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 
 class Group(models.Model):
