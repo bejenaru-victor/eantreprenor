@@ -4,6 +4,10 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
+from django.conf import settings
+import stripe
 
 from .permissions import HasPurchasedCourse
 from .models import Course, Lesson, Group, SharedFile
@@ -93,4 +97,26 @@ def bulk_upload(request):
         serializer.save()
         return Response({'status': 'files uploaded successfully'}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreatePaymentIntentView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            #data = request.data
+            amount = 1000#data.get('amount')
+
+            if amount is None:
+                return Response({"error": "Amount is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+            intent = stripe.PaymentIntent.create(
+                amount=int(amount),
+                currency='usd',
+                metadata={'integration_check': 'accept_a_payment'},
+            )
+
+            return Response({
+                'client_secret': intent['client_secret']
+            })
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
