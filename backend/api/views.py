@@ -111,7 +111,11 @@ class CreatePaymentIntentView(APIView):
             intent = stripe.PaymentIntent.create(
                 amount=int(amount),
                 currency='usd',
-                metadata={'integration_check': 'accept_a_payment'},
+                metadata={
+                    'integration_check': 'accept_a_payment',
+                    'user': 'some kind of user',
+                    'course': 'this is the value of a course'
+                },
             )
 
             return Response({
@@ -119,4 +123,35 @@ class CreatePaymentIntentView(APIView):
             })
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+class StripeWebhookView(APIView):
+    def post(self, request, *args, **kwargs):
+        payload = request.body
+        event = None
+
+        try:
+            sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+            event = stripe.Webhook.construct_event(
+                payload, sig_header, settings.STRIPE_SECRET_KEY
+            )
+        except ValueError as e:
+            # Invalid payload
+            return Response({'error': str(e)}, status=400)
+        except stripe.error.SignatureVerificationError as e:
+            # Invalid signature
+            return Response({'error': str(e)}, status=400)
+
+        # Handle the event
+        if event['type'] == 'payment_intent.succeeded':
+            payment_intent = event['data']['object']
+            # Handle successful payment intent here
+            print(payment_intent)
+        # ... handle other event types
+        else:
+            print('Unhandled event type {}'.format(event['type']))
+
+        return Response({'success': True})
 

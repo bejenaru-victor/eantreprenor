@@ -23,4 +23,5 @@ urlpatterns = router.urls + [
     path('bulk-upload/', views.bulk_upload, name='bulk-upload'),
 
     path('create-payment-intent/', views.CreatePaymentIntentView.as_view(), name='create-payment-intent'),
+    path('webhook/', views.StripeWebhookView.as_view(), name='stripe-webhook'),
 ]
