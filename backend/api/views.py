@@ -127,7 +127,7 @@ class CreatePaymentIntentView(APIView):
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-endpoint_secret = 'whsec_5b2b448fd5c83420d67895f41c754f562f5c3deb28678a82d5209bd4635bdb06'
+endpoint_secret = 'whsec_W6g0RhhEr23gapXfTaxoWrfFpgp2Wak7'
 
 class StripeWebhookView(APIView):
     def post(self, request, *args, **kwargs):
