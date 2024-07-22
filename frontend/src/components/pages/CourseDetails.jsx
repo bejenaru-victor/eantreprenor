@@ -28,6 +28,13 @@ export default async function CourseDetails({course, lessons}) {
                     <p className="text-lg text-gray-600">
                         {course.description}
                     </p>
+                    <div className="flex mt-10">
+                        <Link href={`/dashboard/course/${course.id}/checkout`}>
+                            <div className="px-5 py-3 bg-emerald-600 text-white font-bold rounded-md cursor-pointer hover:bg-emerald-700 transition-colors">
+                                Buy course - <span className="font-normal">39.99$</span>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div className='col-span-6 flex '>

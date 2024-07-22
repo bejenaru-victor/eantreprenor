@@ -7,14 +7,17 @@ import { useEffect, useState } from 'react';
 
 const stripePromise = getStripe();
 
-export default function StripeWrapper() {
+export default function StripeWrapper({metadata}) {
 
     const [clientSecret, setClientSecret] = useState(null)
 
     useEffect(() => {
         fetch(process.env.NEXT_PUBLIC_API_ROOT+'create-payment-intent/', {
-            method: "GET",
-            //body: JSON.stringify({amount: '1000'})
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(metadata)
         }).then(async (r) => {
             const { client_secret } = await r.json()
 

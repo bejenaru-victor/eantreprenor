@@ -100,21 +100,23 @@ def bulk_upload(request):
 
 
 class CreatePaymentIntentView(APIView):
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         try:
-            #data = request.data
-            amount = 1000#data.get('amount')
+            data = request.data
+            price = data.get('price')
+            course = data.get('course')
+            user = data.get('user')
 
-            if amount is None:
+            if price is None:
                 return Response({"error": "Amount is required"}, status=status.HTTP_400_BAD_REQUEST)
 
             intent = stripe.PaymentIntent.create(
-                amount=int(amount),
-                currency='usd',
+                amount=int(price),
+                currency='ron',
                 metadata={
                     'integration_check': 'accept_a_payment',
-                    'user': 'some kind of user',
-                    'course': 'this is the value of a course'
+                    'user': user,
+                    'course': course,
                 },
             )
 
