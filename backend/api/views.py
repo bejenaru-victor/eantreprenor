@@ -154,7 +154,7 @@ class StripeWebhookView(APIView):
         if event['type'] == 'payment_intent.succeeded':
             payment_intent = event['data']['object']
             # Handle successful payment intent here
-            print(payment_intent['metadata'])
+            print('testing something else', payment_intent['metadata'], payment_intent['metadata']['course'], payment_intent['metadata']['user'])
             if payment_intent['metadata']['course'] and payment_intent['metadata']['user']:
                 try:
                     user = User.objects.get(id=payment_intent['metadata']['user'])
