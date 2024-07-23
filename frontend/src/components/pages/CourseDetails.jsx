@@ -29,11 +29,19 @@ export default async function CourseDetails({course, lessons}) {
                         {course.description}
                     </p>
                     <div className="flex mt-10">
-                        <Link href={`/dashboard/course/${course.id}/checkout`}>
-                            <div className="px-5 py-3 bg-emerald-600 text-white font-bold rounded-md cursor-pointer hover:bg-emerald-700 transition-colors">
-                                Buy course - <span className="font-normal">39.99$</span>
-                            </div>
-                        </Link>
+                        <div>
+                            <Link href={`/dashboard/course/${course.id}/checkout`}>
+                                <div className="px-5 py-3 text-center bg-emerald-600 text-white font-bold rounded-md cursor-pointer hover:bg-emerald-700 transition-colors">
+                                    Buy course - <span className="font-normal">40$</span>
+                                </div>
+                            </Link>
+                            <div className="mt-5"></div>
+                            <Link href={`/dashboard/course/${course.id}/checkout`}>
+                                <div className="px-5 py-2 text-sm bg-slate-800 text-white font-medium rounded-md cursor-pointer hover:bg-slate-700 transition-colors">
+                                    Subscribe for full access - <span className="font-normal">20$</span>
+                                </div>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

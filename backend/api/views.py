@@ -152,7 +152,7 @@ class StripeWebhookView(APIView):
         if event['type'] == 'payment_intent.succeeded':
             payment_intent = event['data']['object']
             # Handle successful payment intent here
-            print(payment_intent)
+            print(payment_intent['metadata'])
         # ... handle other event types
         else:
             print('Unhandled event type {}'.format(event['type']))

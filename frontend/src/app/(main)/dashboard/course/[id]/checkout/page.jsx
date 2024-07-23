@@ -17,11 +17,11 @@ export default async function Page({params}) {
             </h1>
             <div className="my-6 bg-gray-700 w-12 h-[0.2rem] rounded-full"></div>
             <h3 className="text-lg text-gray-700 tracking-tight mb-10">
-                <span className='font-medium'>39.99$</span> - 
+                <span className='font-medium'>40$</span> - 
                 <span className='font-bold'> COURSE: </span>
                 <span className='font-medium'>{course.name}</span>
             </h3>
-            <StripeWrapper metadata={{course: course.id, user: user, price: 3999}} />
+            <StripeWrapper metadata={{course: course.id, user: user, price: 4000}} />
         </div>
     </>
 }
