@@ -155,11 +155,11 @@ class StripeWebhookView(APIView):
             payment_intent = event['data']['object']
             # Handle successful payment intent here
             print(payment_intent['metadata'])
-            if int(payment_intent['metadata']['course']) and int(payment_intent['metadata']['user']):
+            if payment_intent['metadata']['course'] and payment_intent['metadata']['user']:
                 try:
                     user = User.objects.get(id=payment_intent['metadata']['user'])
                     course = Course.objects.get(id=payment_intent['metadata']['course'])
-                    print(user, course)
+                    print('this is the test', user.email, course.name)
                 except ObjectDoesNotExist:
                     Response({'success': False, 'error': 'Bad request. Specify the user and the course'})
             else:
