@@ -161,6 +161,7 @@ class StripeWebhookView(APIView):
                     course = Course.objects.get(id=payment_intent['metadata']['course'])
                     print('this is the test', user.email, course.name)
                 except ObjectDoesNotExist:
+                    print('something happend badly')
                     Response({'success': False, 'error': 'Bad request. Specify the user and the course'})
             else:
                 Response({'success': False, 'error': 'Bad request. No user or course specified'})
