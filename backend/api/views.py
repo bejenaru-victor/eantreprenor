@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
+from django.core.exceptions import ObjectDoesNotExist
+
 from django.conf import settings
 import stripe
 
@@ -153,6 +155,15 @@ class StripeWebhookView(APIView):
             payment_intent = event['data']['object']
             # Handle successful payment intent here
             print(payment_intent['metadata'])
+            if int(payment_intent['metadata']['course']) and int(payment_intent['metadata']['user']):
+                try:
+                    user = User.objects.get(id=payment_intent['metadata']['user'])
+                    course = Course.objects.get(id=payment_intent['metadata']['course'])
+                    print(user, course)
+                except ObjectDoesNotExist:
+                    Response({'success': False, 'error': 'Bad request. Specify the user and the course'})
+            else:
+                Response({'success': False, 'error': 'Bad request. No user or course specified'})
         # ... handle other event types
         else:
             print('Unhandled event type {}'.format(event['type']))
