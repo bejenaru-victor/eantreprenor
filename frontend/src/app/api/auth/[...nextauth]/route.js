@@ -85,8 +85,6 @@ export const authOptions = {
             else if (trigger === "update") 
                 token.user = await get_user(token.access)
 
-            console.log('is going through jwt')
-
             return token
         },
 

@@ -18,6 +18,7 @@ urlpatterns = router.urls + [
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
 
     path('get-course-lesson-data/<int:id>/', views.get_course_lesson_data, name='get-course-lesson-data'),
+    path('course_ownership/<int:course_id>/', views.CourseOwnershipView.as_view(), name='course-ownership'),
     path('next_prev/<int:id>/', views.get_next_prev, name='get-next-prev'),
     path('user/<int:id>/files/', views.get_user_files, name='user-files'),
     path('bulk-upload/', views.bulk_upload, name='bulk-upload'),

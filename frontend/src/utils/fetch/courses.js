@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { get_access_token } from './token';
 
 export async function get_Course(id) {
     const response = await axios.get(process.env.API_ROOT+`courses/${id}`,{
@@ -75,4 +76,21 @@ export async function edit_course(id, value) {
     }
 
     return null
+}
+
+export async function get_Course_Ownership(course_id){
+    const accessToken = await get_access_token()
+    const res = await fetch(process.env.NEXT_PUBLIC_API_ROOT + `course_ownership/${course_id}/`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${accessToken}`,
+        },
+    });
+    if (res.ok) {
+        const data = await res.json();
+        return data;
+    } else {
+        return {ok: false, error: 'Request error'};
+    }
 }

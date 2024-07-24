@@ -180,3 +180,13 @@ class StripeWebhookView(APIView):
 
         return Response({'success': True})
 
+
+class CourseOwnershipView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, course_id):
+        user = request.user
+        if Purchase.objects.filter(user=user, course_id=course_id).exists():
+            return Response({'owned': True})
+        else:
+            return Response({'owned': False})
