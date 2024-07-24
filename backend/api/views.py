@@ -109,6 +109,12 @@ class CreatePaymentIntentView(APIView):
             course = data.get('course')
             user = data.get('user')
 
+            try:
+                Purchase.objects.get(user=user, course=course)
+                return Response({"error": "User have bought the course"}, status=status.HTTP_400_BAD_REQUEST)
+            except ObjectDoesNotExist:
+                pass
+
             if price is None:
                 return Response({"error": "Amount is required"}, status=status.HTTP_400_BAD_REQUEST)
             
