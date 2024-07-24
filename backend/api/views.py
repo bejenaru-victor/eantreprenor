@@ -12,7 +12,7 @@ from django.conf import settings
 import stripe
 
 from .permissions import HasPurchasedCourse
-from .models import Course, Lesson, Group, SharedFile
+from .models import Course, Lesson, Group, SharedFile, Purchase
 from users.models import User
 from .serializers import CourseSerializer, LessonSerializer, GroupSerializer, UserSerializer, BulkUploadSerializer, SharedFileSerializer
 
@@ -111,7 +111,10 @@ class CreatePaymentIntentView(APIView):
 
             if price is None:
                 return Response({"error": "Amount is required"}, status=status.HTTP_400_BAD_REQUEST)
-
+            
+            if user is None or not user:
+                return Response({"error": "User is required"}, status=status.HTTP_400_BAD_REQUEST)
+            
             intent = stripe.PaymentIntent.create(
                 amount=int(price),
                 currency='ron',
@@ -159,9 +162,9 @@ class StripeWebhookView(APIView):
                 try:
                     user = User.objects.get(id=payment_intent['metadata']['user'])
                     course = Course.objects.get(id=payment_intent['metadata']['course'])
-                    print('this is the test', user.email, course.name)
+                    p = Purchase(user=user, course=course)
+                    p.save()
                 except ObjectDoesNotExist:
-                    print('something happend badly')
                     Response({'success': False, 'error': 'Bad request. Specify the user and the course'})
             else:
                 Response({'success': False, 'error': 'Bad request. No user or course specified'})
