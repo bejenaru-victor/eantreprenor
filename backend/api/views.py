@@ -27,6 +27,22 @@ class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        owned = self.request.query_params.get('owned', None)
+        if owned is not None:
+            user = self.request.user
+            queryset = queryset.filter(purchases__user=user)
+        return queryset
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def owned(self, request):
+        user = request.user
+        owned_courses = Course.objects.filter(purchases__user=user)
+        serializer = self.get_serializer(owned_courses, many=True)
+        return Response(serializer.data)
+    
+
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer

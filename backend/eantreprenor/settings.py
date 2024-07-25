@@ -206,8 +206,8 @@ REST_AUTH = {
 
 # simplejwt settings
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=10),#timedelta(minutes=5),#
-    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=5),#timedelta(hours=24),#
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),#timedelta(seconds=10),#
+    "REFRESH_TOKEN_LIFETIME": timedelta(hours=24),#timedelta(minutes=5),#
     "SIGNING_KEY": SECRET_KEY,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }

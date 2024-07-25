@@ -4,6 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import Link from 'next/link'
 import CastForEducationIcon from '@mui/icons-material/CastForEducation'
 import DashboardFileList from "@/components/pages/DashboardFileList"
+import UserOwnedCourses from "@/components/pages/UserOwnedCourses"
 
 export default async function Page() {
 
@@ -31,6 +32,8 @@ export default async function Page() {
         <div className='max-w-screen-xl mx-auto px-4 py-12'>
             <h1 className="text-4xl font-light">DASHBOARD</h1>
             <div className="my-4 bg-gray-700 w-12 h-[0.2rem] rounded-full"></div>
+
+            <UserOwnedCourses />
 
             {session?.user?.roles_list.includes("Admin") && admin_components}
             <DashboardFileList user_id={session?.user?.id} />

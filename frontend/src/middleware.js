@@ -21,4 +21,4 @@ export default withAuth(
   },
 )
 
-export const config = { matcher: ["/my-courses", '/dashboard'] }
+export const config = { matcher: ["/my-courses", '/dashboard', '/dashboard/course/:path*/checkout'] }

@@ -28,8 +28,7 @@ export default function FileList({files, options=false}) {
         return
 
     return <>
-        <h3 className='mt-10 text-xl font-medium mb-4'>Shared files:</h3>
-        <div className="my-3 bg-gray-700 w-12 h-[0.2rem] rounded-full"></div>
+        <h3 className='mt-10 text-xl font-medium mb-4'>Shared files</h3>
         <div className="grid max-w-screen-xl mx-auto lg:grid-cols-12 gap-5 mt-7 mb-10">
             {files.map((file) => 
                 <div key={file.file} className="col-span-4 flex flex-row border-2 border-slate-300 hover:border-slate-400 transition-colors shadow-lg p-5 rounded-xl cursor-pointer">

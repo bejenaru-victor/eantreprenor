@@ -1,10 +1,18 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { signIn } from "next-auth/react";
 
 
 export default function LoginForm() {
+    const searchParams = useSearchParams()
+    const router = useRouter()
+
+    const search = searchParams.get('callbackUrl') || '/dashboard'
+
+    console.log(search)
+
     return <>
         <section className="bg-gray-50">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-auto lg:py-20">
@@ -28,8 +36,8 @@ export default function LoginForm() {
                               password,
                             })
                             if (!response.error)
-                                window.location.href = "/dashboard"
-                            console.log(response)
+                                window.location.href = search
+                            //  console.log(response)
                           }}
                         className="space-y-4 md:space-y-6" action="#">
                         <div>

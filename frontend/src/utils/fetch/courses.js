@@ -59,6 +59,29 @@ export async function get_Courses() {
     return response.data
 }
 
+export async function get_Owned_Courses() {
+    const accessToken = await get_access_token();
+    const url = new URL(`${process.env.API_ROOT}courses/`);
+    url.searchParams.append('owned', 'true');
+
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        return data;
+    } else {
+        const error = await response.json();
+        console.error('Error:', error);
+        throw new Error('Failed to fetch owned courses');
+    }
+}
+
 export async function edit_course(id, value) {
     const res = await fetch(process.env.NEXT_PUBLIC_API_ROOT+`courses/${id}/`, {
         method: "PATCH",
