@@ -1,7 +1,8 @@
 'use client'
 
-import LoginForm from "@/components/forms/Login";
+import LoginForm from "@/components/forms/Login"
+import { Suspense } from 'react'
 
 export default function Page() {
-    return <><LoginForm /></>
+    return <><Suspense><LoginForm /></Suspense></>
 }
