@@ -25,7 +25,7 @@ export default function HomeSlider() {
                         <span className='font-light text-3xl'>Eantreprenor</span><br/>
                         <span className='font-bold'>by WeSoftware</span>
                         <div className="my-4 bg-white w-12 h-[0.2rem] rounded-full"></div>
-                        <p>Are you ready to turn your ideas into reality? Our platform offers comprehensive courses designed to empower aspiring entrepreneurs like you. Whether you're just starting out or looking to scale your business, our expert-led lessons and hands-on resources provide the guidance you need to succeed.
+                        <p>Are you ready to turn your ideas into reality? Our platform offers comprehensive courses designed to empower aspiring entrepreneurs like you. Whether you&apos;re just starting out or looking to scale your business, our expert-led lessons and hands-on resources provide the guidance you need to succeed.
                         </p>
                         <div className='flex mt-8'>
                             <Link href={`/dashboard/course/12/checkout`}>
