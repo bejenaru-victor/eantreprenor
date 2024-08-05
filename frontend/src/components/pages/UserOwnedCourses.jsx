@@ -10,8 +10,6 @@ export default async function UserOwnedCourses() {
 
     const courses = await get_Owned_Courses()
 
-    console.log('this are the courses', courses)
-
     return <>
         <h3 className='mt-10 text-xl font-medium mb-4'>My courses</h3>
         <div className="grid lg:gap-8 xl:gap-10 lg:grid-cols-12 mt-8">

@@ -1889,6 +1889,7 @@ __metadata:
     react-dom: ^18
     react-dropzone: ^14.2.3
     react-quill: ^2.0.0
+    swiper: ^11.1.9
     tailwindcss: ^3.4.1
     yup: ^1.4.0
   languageName: unknown
@@ -5057,6 +5058,13 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 53b1e247e68e05db7b3808b99b892bd36fb096e6fba213a06da7fab22045e97597db425c724f2bbd6c99a3c295e1e73f3e4de78592289f38431049e1277ca0ae
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^11.1.9":
+  version: 11.1.9
+  resolution: "swiper@npm:11.1.9"
+  checksum: 8c8c94df1e515f3f5ee675afc65ba1b6b819addc3a6d2bd542866ad7eaea8f2c284c1d976444bec730055e9d47fcee0bb6ad3355c4514dd1d499eb5edcaec33f
   languageName: node
   linkType: hard
 
