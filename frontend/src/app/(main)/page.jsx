@@ -1,6 +1,11 @@
 import FeaturedCourses from "@/components/pages/homepage/FeaturedCourses";
 import HomeSlider from "@/components/pages/homepage/HomeSlider";
 
+// Opt out of caching for all data requests in the route segment
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+
 export default async function Page() {
     return <>
         <div className='max-w-screen-xl mx-auto px-4 pt-5 pb-12'>
