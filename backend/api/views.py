@@ -7,12 +7,15 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
+
+from datetime import timedelta
 
 from django.conf import settings
 import stripe
 
 from .permissions import HasPurchasedCourse
-from .models import Course, Lesson, Group, SharedFile, Purchase
+from .models import Course, Lesson, Group, SharedFile, Purchase, Payment, Subscription
 from users.models import User
 from .serializers import CourseSerializer, LessonSerializer, GroupSerializer, UserSerializer, BulkUploadSerializer, SharedFileSerializer
 
@@ -124,6 +127,7 @@ class CreatePaymentIntentView(APIView):
             price = data.get('price')
             course = data.get('course')
             user = data.get('user')
+            subscription = data.get('subscription', False)
 
             try:
                 Purchase.objects.get(user=user, course=course)
@@ -142,8 +146,9 @@ class CreatePaymentIntentView(APIView):
                 currency='ron',
                 metadata={
                     'integration_check': 'accept_a_payment',
-                    'user': user,
-                    'course': course,
+                    'user': str(user),
+                    'course': str(course) if course else '',
+                    'payment_type': 'subscription' if subscription else 'one-time',
                 },
             )
 
@@ -174,18 +179,44 @@ class StripeWebhookView(APIView):
         except stripe.error.SignatureVerificationError as e:
             # Invalid signature
             return Response({'error': str(e)}, status=400)
+        
+        event_type = event['type']
+        data_object = event['data']['object']
 
         # Handle the event
-        if event['type'] == 'payment_intent.succeeded':
-            payment_intent = event['data']['object']
-            # Handle successful payment intent here
-            print('testing something else', payment_intent['metadata'], payment_intent['metadata']['course'], payment_intent['metadata']['user'])
-            if payment_intent['metadata']['course'] and payment_intent['metadata']['user']:
+        if event_type == 'payment_intent.succeeded':
+            payment_intent = data_object
+            metadata = payment_intent['metadata']
+            user_id = metadata.get('user')
+            course_id = metadata.get('course')
+            payment_type = metadata.get('payment_type')
+
+            if user_id:
                 try:
                     user = User.objects.get(id=payment_intent['metadata']['user'])
-                    course = Course.objects.get(id=payment_intent['metadata']['course'])
-                    p = Purchase(user=user, course=course)
-                    p.save()
+                    amount = payment_intent['amount_received'] / 100
+                    stripe_charge_id = payment_intent['id']
+
+                    # Create the Payment record
+                    payment = Payment.objects.create(
+                        user=user,
+                        stripe_charge_id=stripe_charge_id,
+                        amount=amount
+                    )
+
+                    if payment_type == 'subscription':
+                        # Create the Subscription record
+                        Subscription.objects.create(
+                            user=user,
+                            payment=payment,
+                            start_date=timezone.now(),
+                            end_date=timezone.now() + timedelta(days=30)  # Example duration
+                        )
+
+                    else:
+                        course = Course.objects.get(id=course_id)
+                        Purchase.objects.create(user=user, course=course)
+
                 except ObjectDoesNotExist:
                     Response({'success': False, 'error': 'Bad request. Specify the user and the course'})
             else:

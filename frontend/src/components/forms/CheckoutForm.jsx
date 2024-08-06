@@ -2,7 +2,7 @@
 
 import { CardElement, useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { useState } from 'react'
-import axios from 'axios'
+
 
 export default function CheckoutForm() {
   const stripe = useStripe()

@@ -1,5 +1,6 @@
 from django.db import models
-from datetime import datetime 
+from datetime import datetime
+from django.utils import timezone
 from .utils import process_image
 
 
@@ -35,10 +36,21 @@ class Subscriber_Record(models.Model):
     progress = models.ManyToManyField(Lesson)
     active = models.BooleanField(null=False, blank=True, default=True)
 
+
 class Purchase(models.Model):
     user = models.ForeignKey('users.User', related_name='purchases', on_delete=models.CASCADE)
     course = models.ForeignKey(Course, related_name='purchases', on_delete=models.CASCADE)
     purchase_date = models.DateTimeField(auto_now_add=True)
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    payment = models.ForeignKey('api.Payment', on_delete=models.SET_NULL, null=True)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+
+    def is_active(self):
+        return self.end_date > timezone.now()
 
 
 class Payment(models.Model):
