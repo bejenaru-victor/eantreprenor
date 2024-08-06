@@ -235,5 +235,11 @@ class CourseOwnershipView(APIView):
         user = request.user
         if Purchase.objects.filter(user=user, course_id=course_id).exists():
             return Response({'owned': True})
+        
+        elif Subscription.objects.filter(user=user).exists():
+            latest_subscription = Subscription.objects.filter(user=user).latest('end_date')
+            if latest_subscription.is_active():
+                return Response({'owned': True})
+            
         else:
             return Response({'owned': False})
