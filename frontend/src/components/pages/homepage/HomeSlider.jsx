@@ -28,7 +28,7 @@ export default function HomeSlider() {
                         <p>Are you ready to turn your ideas into reality? Our platform offers comprehensive courses designed to empower aspiring entrepreneurs like you. Whether you&apos;re just starting out or looking to scale your business, our expert-led lessons and hands-on resources provide the guidance you need to succeed.
                         </p>
                         <div className='flex mt-8'>
-                            <Link href={`/dashboard/course/12/checkout`}>
+                            <Link href={`/subscription/checkout`}>
                                 <div className="px-5 py-2 text-sm bg-emerald-700 text-white font-medium rounded-md cursor-pointer hover:bg-emerald-800 transition-colors">
                                     Subscribe for full access
                                 </div>

@@ -92,18 +92,22 @@ export default async function CourseDetails({course, lessons}) {
             
         </div>
         <div className='flex gap-5 mt-10 mb-20'>
-            <Link href={`/dashboard/course/${course.id}/add-lesson`}>
-                <div className='bg-slate-800 font-semibold text-gray-50 cursor-pointer hover:bg-slate-900 hover:text-white hover:shadow-md transition-all px-5 py-3 rounded-full'>
-                    <AddCircleIcon />
-                    &nbsp;Add Lesson
-                </div>
-            </Link>
-            <Link href={`/dashboard/course/${course.id}/add-lesson`}>
-                <div className='bg-slate-800 font-semibold text-gray-50 cursor-pointer hover:bg-slate-900 hover:text-white hover:shadow-md transition-all px-5 py-3 rounded-full'>
-                    <LowPriorityIcon />
-                    &nbsp;Change order
-                </div>
-            </Link>
+            {course.author == session?.user?.id && 
+            <>
+                <Link href={`/dashboard/course/${course.id}/add-lesson`}>
+                    <div className='bg-slate-800 font-semibold text-gray-50 cursor-pointer hover:bg-slate-900 hover:text-white hover:shadow-md transition-all px-5 py-3 rounded-full'>
+                        <AddCircleIcon />
+                        &nbsp;Add Lesson
+                    </div>
+                </Link>
+                <Link href={`/dashboard/course/${course.id}/add-lesson`}>
+                    <div className='bg-slate-800 font-semibold text-gray-50 cursor-pointer hover:bg-slate-900 hover:text-white hover:shadow-md transition-all px-5 py-3 rounded-full'>
+                        <LowPriorityIcon />
+                        &nbsp;Change order
+                    </div>
+                </Link>
+            </>
+            }
         </div>
         {session?.user?.roles_list.includes('Admin') && <PublishSwitch course={course} />}
     </>

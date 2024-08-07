@@ -17,3 +17,23 @@ class HasPurchasedCourse(permissions.BasePermission):
             return True
 
         return False
+    
+
+class IsCourseOwner(permissions.BasePermission):
+    def has_permission(self, request, view):
+        # This permission only applies to POST requests
+        if request.method != 'POST':
+            return True
+
+        # Get the course ID from the request data
+        course_id = request.data.get('course')
+        if not course_id:
+            return False
+
+        try:
+            course = Course.objects.get(id=course_id)
+        except Course.DoesNotExist:
+            return False
+
+        # Check if the user is the owner of the course
+        return course.author == request.user

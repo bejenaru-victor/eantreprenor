@@ -14,7 +14,7 @@ from datetime import timedelta
 from django.conf import settings
 import stripe
 
-from .permissions import HasPurchasedCourse
+from .permissions import HasPurchasedCourse, IsCourseOwner
 from .models import Course, Lesson, Group, SharedFile, Purchase, Payment, Subscription
 from users.models import User
 from .serializers import CourseSerializer, LessonSerializer, GroupSerializer, UserSerializer, BulkUploadSerializer, SharedFileSerializer
@@ -44,12 +44,11 @@ class CourseViewSet(viewsets.ModelViewSet):
         owned_courses = Course.objects.filter(purchases__user=user)
         serializer = self.get_serializer(owned_courses, many=True)
         return Response(serializer.data)
-    
 
+    
 class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsAuthenticated, HasPurchasedCourse]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -57,12 +56,17 @@ class LessonViewSet(viewsets.ModelViewSet):
         if course_id is not None:
             queryset = queryset.filter(course_id=course_id)
         return queryset
-    
+
     def get_permissions(self):
-        if 'course' in self.request.query_params:
-            return []
+        if self.request.method == 'GET' and 'course' in self.request.query_params:
+            self.permission_classes = []
+        elif self.request.method == 'POST':
+            self.permission_classes = [IsAuthenticated, IsCourseOwner]
         else:
-            return [IsAuthenticated(), HasPurchasedCourse()]
+            self.permission_classes = [IsAuthenticated, HasPurchasedCourse]
+
+        return [permission() for permission in self.permission_classes]
+
 
 class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
@@ -78,7 +82,7 @@ def get_course_lesson_data(request, id):
     try:
         course = Course.objects.get(id=id)
         lesson = course.lesson_set.all().count() + 1
-        return Response({'ok': True, 'data': {'id': course.pk, 'name': course.name, 'lesson': lesson}})
+        return Response({'ok': True, 'data': {'id': course.pk, 'name': course.name, 'lesson': lesson, 'author': course.author.pk}})
     except:
         return Response({'ok': False, 'error': 'Something went very wrong'})
     

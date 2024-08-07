@@ -52,8 +52,8 @@ export default function CreateLesson({data}) {
         <form action={async (formData) => {
                 formData.append('description', value)
                 const res = await createLesson(formData, data.id)
-                console.log(res)
-                //router.push(`/dashboard/course/${data.id}`)
+                //console.log(res)
+                router.push(`/dashboard/course/${data.id}`)
             }
         }>
             <div className="grid lg:gap-8 xl:gap-16 lg:grid-cols-12">
@@ -73,7 +73,6 @@ export default function CreateLesson({data}) {
                         variant="outlined" size='large' name='description'
                         inputProps={{style: {fontSize: '1.2rem'}, className: 'leading-tight'}} />*/}
                     <ReactQuill className='mt-10' theme="snow" value={value} onChange={setValue} modules={modules} formats={formats} />
-                    <div onClick={() => {console.log(value)}}>Show wassup</div>
                 </div>
             </div>
             <Button className='mt-10 float-end clear-right bg-cyan-600 hover:bg-cyan-700 rounded-full' variant="contained" size='large' type='submit'>
