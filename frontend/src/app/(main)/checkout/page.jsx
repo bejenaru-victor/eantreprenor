@@ -1,6 +1,12 @@
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+
 import StripeWrapper from "@/components/utils/StripeWrapper";
 
-export default function Page() {
+
+export default async function Page() {
+
+    const session = await getServerSession(authOptions)
 
     return <>
         <div className='max-w-screen-xl mx-auto px-4 py-12'>
@@ -13,7 +19,7 @@ export default function Page() {
                 <span className='font-bold'> SUBSCRIPTION FOR 30 DAYS</span>
             </h3>
             <StripeWrapper metadata={
-                {user: 1, price: 2000, 'subscription': true}
+                {user: session?.user?.id || null, price: 2000, 'subscription': true}
             } />
         </div>
     </>

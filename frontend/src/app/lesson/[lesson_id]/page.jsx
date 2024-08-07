@@ -11,7 +11,7 @@ export default async function Page({params}) {
 
 
     return <>
-        {lesson?.title ? <LessonView lesson={lesson} next_prev={next_prev} /> : 
+        {lesson ? <LessonView lesson={lesson} next_prev={next_prev} /> : 
         <>Forbidden (TODO FORBIDDEN COMPONENT)</>}
     </>
 }
