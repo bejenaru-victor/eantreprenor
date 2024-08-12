@@ -265,6 +265,7 @@ class StripeWebhookView(APIView):
         if event_type == 'payment_intent.succeeded':
             payment_intent = data_object
             metadata = payment_intent['metadata']
+            print('this should be the metadata: ', metadata)
             user_id = metadata.get('user')
             course_id = metadata.get('course')
             payment_type = metadata.get('payment_type')
