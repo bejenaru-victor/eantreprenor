@@ -128,39 +128,112 @@ class CreatePaymentIntentView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             data = request.data
-            price = data.get('price')
             course = data.get('course')
-            user = data.get('user')
+            user_id = data.get('user')
             subscription = data.get('subscription', False)
+            price = data.get('price')  # For one-time payments
 
-            try:
-                Purchase.objects.get(user=user, course=course)
-                return Response({"error": "User have bought the course"}, status=status.HTTP_400_BAD_REQUEST)
-            except ObjectDoesNotExist:
-                pass
-
-            if price is None:
-                return Response({"error": "Amount is required"}, status=status.HTTP_400_BAD_REQUEST)
-            
-            if user is None or not user:
+            # Validate the user
+            if user_id is None or not user_id:
                 return Response({"error": "User is required"}, status=status.HTTP_400_BAD_REQUEST)
             
-            intent = stripe.PaymentIntent.create(
-                amount=int(price),
-                currency='ron',
-                metadata={
-                    'integration_check': 'accept_a_payment',
-                    'user': str(user),
-                    'course': str(course) if course else '',
-                    'payment_type': 'subscription' if subscription else 'one-time',
-                },
-            )
+            user = User.objects.get(id=user_id)  # Assuming you have a User model
 
-            return Response({
-                'client_secret': intent['client_secret']
-            })
-        except Exception as e:
+            if subscription:
+                # Handle the subscription logic
+                customer = stripe.Customer.create(
+                    email=user.email,  # Use the user's email to create the Stripe customer
+                    metadata={'user_id': user.id}
+                )
+
+                # Assuming you have predefined subscription plans in Stripe, you can use the plan ID
+                subscription = stripe.Subscription.create(
+                    customer=customer.id,
+                    items=[{'price': 'price_1PmvZoGmKjmmayLGbUuiT4my'}],  # Replace with your actual price ID
+                    metadata={
+                        'user': str(user.id),
+                        'course': str(course) if course else '',
+                    },
+                    payment_behavior='default_incomplete',
+                    expand=['latest_invoice.payment_intent'],
+                )
+
+                return Response({
+                    'subscription_id': subscription.id,
+                    'client_secret': subscription.latest_invoice.payment_intent.client_secret
+                })
+            else:
+                # Handle one-time payment logic
+                try:
+                    Purchase.objects.get(user=user, course=course)
+                    return Response({"error": "User has already bought the course"}, status=status.HTTP_400_BAD_REQUEST)
+                except ObjectDoesNotExist:
+                    pass
+
+                if price is None:
+                    return Response({"error": "Amount is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+                intent = stripe.PaymentIntent.create(
+                    amount=int(price),
+                    currency='ron',
+                    metadata={
+                        'integration_check': 'accept_a_payment',
+                        'user': str(user.id),
+                        'course': str(course) if course else '',
+                        'payment_type': 'one-time',
+                    },
+                )
+
+                return Response({
+                    'client_secret': intent['client_secret']
+                })
+
+        except stripe.error.StripeError as e:
+            # Handle Stripe errors
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            # Handle other errors
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+# class CreatePaymentIntentView(APIView):
+#     def post(self, request, *args, **kwargs):
+#         try:
+#             data = request.data
+#             price = data.get('price')
+#             course = data.get('course')
+#             user = data.get('user')
+#             subscription = data.get('subscription', False)
+
+#             try:
+#                 Purchase.objects.get(user=user, course=course)
+#                 return Response({"error": "User have bought the course"}, status=status.HTTP_400_BAD_REQUEST)
+#             except ObjectDoesNotExist:
+#                 pass
+
+#             if price is None:
+#                 return Response({"error": "Amount is required"}, status=status.HTTP_400_BAD_REQUEST)
+            
+#             if user is None or not user:
+#                 return Response({"error": "User is required"}, status=status.HTTP_400_BAD_REQUEST)
+            
+#             intent = stripe.PaymentIntent.create(
+#                 amount=int(price),
+#                 currency='ron',
+#                 metadata={
+#                     'integration_check': 'accept_a_payment',
+#                     'user': str(user),
+#                     'course': str(course) if course else '',
+#                     'payment_type': 'subscription' if subscription else 'one-time',
+#                 },
+#             )
+
+#             return Response({
+#                 'client_secret': intent['client_secret']
+#             })
+#         except Exception as e:
+#             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -177,6 +250,7 @@ class StripeWebhookView(APIView):
             event = stripe.Webhook.construct_event(
                 payload, sig_header, endpoint_secret
             )
+            print(event)
         except ValueError as e:
             # Invalid payload
             return Response({'error': str(e)}, status=400)
@@ -237,13 +311,13 @@ class CourseOwnershipView(APIView):
 
     def get(self, request, course_id):
         user = request.user
+        data = {'owned': False, 'subscribed': False}
         if Purchase.objects.filter(user=user, course_id=course_id).exists():
-            return Response({'owned': True})
+            data['owned'] = True
         
         elif Subscription.objects.filter(user=user).exists():
             latest_subscription = Subscription.objects.filter(user=user).latest('end_date')
             if latest_subscription.is_active():
-                return Response({'owned': True})
-            
-        else:
-            return Response({'owned': False})
+                data['subscribed'] = True
+        
+        return Response(data)

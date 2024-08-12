@@ -50,12 +50,25 @@ export default async function CourseDetails({course, lessons}) {
                                 </div>
                             </Link>
                             }
-                            <div className="mt-5"></div>
-                            <Link href={`/dashboard/course/${course.id}/checkout`}>
-                                <div className="px-5 py-2 text-sm bg-slate-800 text-white font-medium rounded-md cursor-pointer hover:bg-slate-700 transition-colors">
-                                    Subscribe for full access - <span className="font-normal">20$</span>
+                            {(ownership?.subscribed && !ownership?.owned) ?
+                            <>
+                                <div className="flex">
+                                    <CheckCircleOutlineRoundedIcon sx={{fontSize: '2rem', color: 'green', mr: 1}} />
+                                    <span className="font-semibold text-gray-600 my-auto">
+                                        Subscribed - You have full access
+                                    </span>
                                 </div>
-                            </Link>
+                            </>
+                            :
+                            <>
+                            <div className="mt-5"></div>
+                                <Link href={`/subscription/checkout`}>
+                                    <div className="px-5 py-2 text-sm bg-slate-800 text-white font-medium rounded-md cursor-pointer hover:bg-slate-700 transition-colors">
+                                        Subscribe for full access - <span className="font-normal">20$</span>
+                                    </div>
+                                </Link>
+                            </>
+                            }
                         </div>
                     </div>
                 </div>
