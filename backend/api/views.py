@@ -1,7 +1,7 @@
 from rest_framework.decorators import action
 from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -153,13 +153,14 @@ class CreatePaymentIntentView(APIView):
 
                 # Check if an active subscription already exists for this customer
                 subscriptions = stripe.Subscription.list(customer=customer.id, status='active', limit=1).data
+
                 if subscriptions:
                     return Response({"error": "User already has an active subscription"}, status=status.HTTP_400_BAD_REQUEST)
 
                 # Create a new subscription
                 subscription = stripe.Subscription.create(
                     customer=customer.id,
-                    items=[{'price': 'price_1PmvZoGmKjmmayLGbUuiT4my'}],  # Replace with your actual price ID
+                    items=[{'price': 'price_1PmvZoGmKjmmayLGbUuiT4my'}],
                     metadata={
                         'user': str(user.id),
                         'course': str(course) if course else '',
@@ -333,3 +334,31 @@ class CourseOwnershipView(APIView):
                 data['subscribed'] = True
         
         return Response(data)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def subscriptions(request):
+    try:
+        # Get the current authenticated user
+        user = request.user
+
+        # Retrieve the Stripe customer by email
+        stripe_customers = stripe.Customer.list(email=user.email).data
+        if not stripe_customers:
+            return Response({'error': 'No Stripe customer found for this user'}, status=404)
+
+        customer = stripe_customers[0]
+
+        # Retrieve all subscriptions for the given customer
+        subscriptions = stripe.Subscription.list(
+            customer=customer.id,
+            status='all',
+            expand=['data.default_payment_method']
+        )
+
+        print(subscriptions)
+
+        return Response(subscriptions)
+    except Exception as e:
+        return Response({'error': str(e)}, status=500)
