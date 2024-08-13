@@ -136,17 +136,27 @@ class CreatePaymentIntentView(APIView):
             # Validate the user
             if user_id is None or not user_id:
                 return Response({"error": "User is required"}, status=status.HTTP_400_BAD_REQUEST)
-            
+
             user = User.objects.get(id=user_id)  # Assuming you have a User model
 
             if subscription:
-                # Handle the subscription logic
-                customer = stripe.Customer.create(
-                    email=user.email,  # Use the user's email to create the Stripe customer
-                    metadata={'user_id': user.id}
-                )
+                # Check if a Stripe customer already exists with the user's email
+                stripe_customers = stripe.Customer.list(email=user.email).data
+                if stripe_customers:
+                    customer = stripe_customers[0]
+                else:
+                    # Create a new Stripe customer if one does not exist
+                    customer = stripe.Customer.create(
+                        email=user.email,
+                        metadata={'user_id': user.id}
+                    )
 
-                # Assuming you have predefined subscription plans in Stripe, you can use the plan ID
+                # Check if an active subscription already exists for this customer
+                subscriptions = stripe.Subscription.list(customer=customer.id, status='active', limit=1).data
+                if subscriptions:
+                    return Response({"error": "User already has an active subscription"}, status=status.HTTP_400_BAD_REQUEST)
+
+                # Create a new subscription
                 subscription = stripe.Subscription.create(
                     customer=customer.id,
                     items=[{'price': 'price_1PmvZoGmKjmmayLGbUuiT4my'}],  # Replace with your actual price ID
@@ -162,6 +172,7 @@ class CreatePaymentIntentView(APIView):
                     'subscription_id': subscription.id,
                     'client_secret': subscription.latest_invoice.payment_intent.client_secret
                 })
+
             else:
                 # Handle one-time payment logic
                 try:
