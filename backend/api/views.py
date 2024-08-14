@@ -206,46 +206,6 @@ class CreatePaymentIntentView(APIView):
         except Exception as e:
             # Handle other errors
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
-# class CreatePaymentIntentView(APIView):
-#     def post(self, request, *args, **kwargs):
-#         try:
-#             data = request.data
-#             price = data.get('price')
-#             course = data.get('course')
-#             user = data.get('user')
-#             subscription = data.get('subscription', False)
-
-#             try:
-#                 Purchase.objects.get(user=user, course=course)
-#                 return Response({"error": "User have bought the course"}, status=status.HTTP_400_BAD_REQUEST)
-#             except ObjectDoesNotExist:
-#                 pass
-
-#             if price is None:
-#                 return Response({"error": "Amount is required"}, status=status.HTTP_400_BAD_REQUEST)
-            
-#             if user is None or not user:
-#                 return Response({"error": "User is required"}, status=status.HTTP_400_BAD_REQUEST)
-            
-#             intent = stripe.PaymentIntent.create(
-#                 amount=int(price),
-#                 currency='ron',
-#                 metadata={
-#                     'integration_check': 'accept_a_payment',
-#                     'user': str(user),
-#                     'course': str(course) if course else '',
-#                     'payment_type': 'subscription' if subscription else 'one-time',
-#                 },
-#             )
-
-#             return Response({
-#                 'client_secret': intent['client_secret']
-#             })
-#         except Exception as e:
-#             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -353,7 +313,7 @@ def subscriptions(request):
         # Retrieve all subscriptions for the given customer
         subscriptions = stripe.Subscription.list(
             customer=customer.id,
-            status='all',
+            status='active',
             expand=['data.default_payment_method']
         )
 
@@ -361,4 +321,41 @@ def subscriptions(request):
 
         return Response(subscriptions)
     except Exception as e:
+        return Response({'error': str(e)}, status=500)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def cancel_subscription(request):
+    try:
+        # Get the current authenticated user
+        user = request.user
+
+        # Retrieve the Stripe customer by email
+        stripe_customers = stripe.Customer.list(email=user.email).data
+        if not stripe_customers:
+            return Response({'error': 'No Stripe customer found for this user'}, status=404)
+
+        customer = stripe_customers[0]
+
+        # Retrieve active subscriptions for the given customer
+        subscriptions = stripe.Subscription.list(
+            customer=customer.id,
+            status='active',
+            limit=1  # We expect only one active subscription
+        ).data
+
+        if not subscriptions:
+            return Response({'error': 'No active subscription found for this user'}, status=404)
+
+        # Cancel the active subscription
+        subscription = subscriptions[0]
+        canceled_subscription = stripe.Subscription.delete(subscription.id)
+
+        return Response({'subscription': canceled_subscription})
+    except stripe.error.StripeError as e:
+        # Handle specific Stripe errors
+        return Response({'error': str(e)}, status=400)
+    except Exception as e:
+        # Handle any other errors
         return Response({'error': str(e)}, status=500)

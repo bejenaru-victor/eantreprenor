@@ -23,6 +23,7 @@ urlpatterns = router.urls + [
     path('user/<int:id>/files/', views.get_user_files, name='user-files'),
     path('bulk-upload/', views.bulk_upload, name='bulk-upload'),
     path('subscriptions/', views.subscriptions, name='subscriptions'),
+    path('cancel_subscription/', views.cancel_subscription, name='cancel_subscription'),
 
     path('create-payment-intent/', views.CreatePaymentIntentView.as_view(), name='create-payment-intent'),
     path('webhook/', views.StripeWebhookView.as_view(), name='stripe-webhook'),

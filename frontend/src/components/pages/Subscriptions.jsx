@@ -4,6 +4,21 @@ import { get_access_token } from '@/utils/fetch/token';
 import React, { useState, useEffect } from 'react';
 
 const AccountSubscription = ({subscription}) => {
+    const cancelSubscription = async () => {
+      const accessToken = await get_access_token()
+      const subscriptions = await fetch(process.env.NEXT_PUBLIC_API_ROOT+`cancel_subscription/`, 
+          {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${accessToken}`,
+              },
+          }
+      ).then(r => r.json());
+
+      console.log(subscriptions)
+    }
+
     return (
       <section className='mb-10'>
         <hr />
@@ -26,7 +41,7 @@ const AccountSubscription = ({subscription}) => {
         </p>
   
         {/* <Link to={{pathname: '/change-plan', state: {subscription: subscription.id }}}>Change plan</Link><br /> */}
-        <a href={'/cancel'}>Cancel</a>
+        <span onClick={cancelSubscription}>Cancel</span>
       </section>
     )
   }
