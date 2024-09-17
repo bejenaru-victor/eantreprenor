@@ -24,23 +24,8 @@ export default function Footer() {
                         <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
                         <ul className="text-gray-500 dark:text-gray-400 font-medium">
                             <li className="mb-4">
-                                <Link href="/company" className="hover:underline">
-                                    Company
-                                </Link>
-                            </li>
-                            <li className="mb-4">
-                                <Link href="/how-we-work" className="hover:underline">
-                                    How we work
-                                </Link>
-                            </li>
-                            <li className="mb-4">
-                                <Link href="/case-studies" className="hover:underline">
+                                <Link href="/courses" className="hover:underline">
                                     Courses
-                                </Link>
-                            </li>
-                            <li className="mb-4">
-                                <Link href="/contact" className="hover:underline">
-                                    Resources
                                 </Link>
                             </li>
                         </ul>
